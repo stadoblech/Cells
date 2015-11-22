@@ -21,14 +21,19 @@ public class BoardManager : MonoBehaviour {
 
         actualCellPosition = player.transform.position + new Vector3(playerSize.x, 0, 0);
 
-        for (int i = 0; i < numberOfCells; i++)
+        for (int i = 0; i < numberOfCells+1; i++)
         {
-            cell.GetComponent<CellHandler>().cellID = i;
             Instantiate(cell, actualCellPosition, Quaternion.identity);
             actualCellPosition += new Vector3(playerSize.x, 0, 0);
         }
 
-        lastCellID = numberOfCells;
+        
+        foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
+        {
+            o.GetComponent<CellHandler>().cellID = lastCellID;
+            lastCellID++;
+        }
+
         setActiveCell();
     }
 
@@ -43,7 +48,7 @@ public class BoardManager : MonoBehaviour {
             Instantiate(newCell, actualCellPosition, Quaternion.identity);
             actualCellPosition += new Vector3(playerSize.x, 0, 0);
             lastCellID++;
-            activeCellID++;    
+            activeCellID++;
         }
 
         setActiveCell();
@@ -60,7 +65,6 @@ public class BoardManager : MonoBehaviour {
                 o.GetComponent<CellHandler>().activeCell = true;
             }
         }
-
     }
 
     void usedCellHandling()
