@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class PlayerAction : MonoBehaviour {
 
     GameObject activeCell;
-
     public KeyCode upAction = KeyCode.UpArrow;
     public KeyCode downAction = KeyCode.DownArrow;
     public KeyCode skipAction = KeyCode.LeftArrow;
