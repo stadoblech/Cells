@@ -7,7 +7,10 @@ public class EventsHandler : MonoBehaviour {
     [System.Serializable]
     public class MineEvent
     {
+        [Tooltip("koeficient pomoci ktereho se propocitavaji akce"),Range(0.1f,1)]
         public float workersCoeficient = 0.3f;
+
+        [Range(0,100)]
         public int returnWorkersProbabilityCoeficient = 50;
 
         public bool workersReturned = false;
