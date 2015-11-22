@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSize: 1
-  startNumberOfTroops: 20
+  startNumberOfTroops: 25
   startNumberOfWorkers: 20
   startNumberOfResources: 200
   startThreatAmount: 25
