@@ -40,8 +40,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27bbb2e35cd40de4d9bd0ed2dfd8c26c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topText: {fileID: 11449124, guid: ccf302d8db2619b4cbd7db98d425f006, type: 2}
-  bottomText: {fileID: 11420368, guid: ccf302d8db2619b4cbd7db98d425f006, type: 2}
+  topText: {fileID: 0}
+  bottomText: {fileID: 0}
+  statsText: {fileID: 0}
 --- !u!114 &11440728
 MonoBehaviour:
   m_ObjectHideFlags: 1
