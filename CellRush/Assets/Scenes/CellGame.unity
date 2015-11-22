@@ -178,6 +178,10 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11420368, guid: ccf302d8db2619b4cbd7db98d425f006, type: 2}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ccf302d8db2619b4cbd7db98d425f006, type: 2}
   m_IsPrefabParent: 0

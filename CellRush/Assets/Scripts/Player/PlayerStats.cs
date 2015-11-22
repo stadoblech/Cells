@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerStats : MonoBehaviour
 {
 
+    public int xpForNextLevel;
     public float startSize;
     public int startNumberOfTroops;
     public int startNumberOfWorkers;
@@ -16,6 +17,9 @@ public class PlayerStats : MonoBehaviour
     public static int numberOfResources;
     public static int threat;
     public static int currentLevel;
+    
+
+    public static int experience;
 
     void Start()
     {
@@ -25,11 +29,16 @@ public class PlayerStats : MonoBehaviour
         numberOfResources = startNumberOfResources;
         threat = startThreatAmount;
         currentLevel = 1;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (experience >= xpForNextLevel)
+        {
+            experience = 0;
+            currentLevel++;
+        }
     }
 }

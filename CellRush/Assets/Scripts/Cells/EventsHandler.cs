@@ -7,8 +7,14 @@ public class EventsHandler : MonoBehaviour {
     [System.Serializable]
     public class MineEvent
     {
+        [Tooltip("pro vypocet akci spojenych s workery"),Range(0.1f,1)]
         public float workersCoeficient = 0.3f;
+
+        [Range(1,100)]
         public int returnWorkersProbabilityCoeficient = 50;
+
+        public int succesfullMineXp = 200;
+        public int returnWorkersXp = 50;
 
         public bool workersReturned = false;
 
@@ -89,7 +95,10 @@ public class EventsHandler : MonoBehaviour {
                     if (mine.isReturningWorkers())
                     {
                         PlayerStats.numberOfWorkers += mine.getNumberOfReturnedWorkers();
+                        PlayerStats.experience += mine.returnWorkersXp;
                     }
+
+                    PlayerStats.experience += mine.succesfullMineXp;
 
                     break;
                 }
