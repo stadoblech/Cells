@@ -77,7 +77,7 @@ public class EventsHandler : MonoBehaviour {
 
 	}
 
-    public void takeAction(ActionType a)
+    public void takeAction(ActionType a,string actionType)
     {
         actionTaken = true;
         switch (a)

@@ -30,12 +30,12 @@ public class PlayerAction : MonoBehaviour {
             if (Input.GetKey(downAction))
             {
                 actionMade = true;
-                takeAction(activeCell.GetComponent<CellActionCreater>().downOption);
+                takeAction(activeCell.GetComponent<CellActionCreater>().downOption,"down");
             }
             else if (Input.GetKey(upAction))
             {
                 actionMade = true;
-                takeAction(activeCell.GetComponent<CellActionCreater>().upOption);
+                takeAction(activeCell.GetComponent<CellActionCreater>().upOption,"up");
             }
             else if (Input.GetKey(skipAction))
             {
@@ -44,7 +44,7 @@ public class PlayerAction : MonoBehaviour {
         }
 	}
 
-    void takeAction(ActionType c)
+    void takeAction(ActionType c,string action)
     {
         switch (c)
         {
@@ -58,7 +58,7 @@ public class PlayerAction : MonoBehaviour {
                 }
             case ActionType.Mine:
                 {
-                    activeCell.GetComponent<EventsHandler>().takeAction(c);
+                    activeCell.GetComponent<EventsHandler>().takeAction(c,action);
                     break;
                 }
         }
