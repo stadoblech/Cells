@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d43a12e56a23b4692598b9df447270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xpForNextLevel: 1000
   startSize: 1
   startNumberOfTroops: 25
   startNumberOfWorkers: 20

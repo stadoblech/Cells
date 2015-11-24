@@ -24,6 +24,16 @@ public class CellActionCreater : MonoBehaviour {
         {
             upOption = (ActionType)UnityEngine.Random.Range(0, numberOfActions);
             downOption = (ActionType)UnityEngine.Random.Range(0, numberOfActions);
+
+            while (upOption == ActionType.Mine && PlayerStats.numberOfWorkers <= 0)
+            {
+                upOption = (ActionType)UnityEngine.Random.Range(0, numberOfActions);
+            }
+
+            while (downOption == ActionType.Mine && PlayerStats.numberOfWorkers <= 0)
+            {
+                downOption = (ActionType)UnityEngine.Random.Range(0, numberOfActions);
+            } 
         }
 
         //print(upOption + " " + downOption);

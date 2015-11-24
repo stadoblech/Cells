@@ -2,65 +2,82 @@
 using System.Collections;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class MineEvent
+{
+    [Tooltip("pro vypocet akci spojenych s workery"), Range(0.1f, 1)]
+    public float workersCoeficient = 0.3f;
+
+    [Range(1, 100)]
+    public int returnWorkersProbabilityCoeficient = 50;
+
+    public int succesfullMineXp = 200;
+    public int returnWorkersXp = 50;
+
+    public bool workersReturned = false;
+
+    /// <summary>
+    /// pocet workeru kteri se dectou od celkoveho poctu workeru
+    /// </summary>
+    /// <returns></returns>
+    public int workersRequire()
+    {
+        int reqWorkers = (int)(PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel);
+        if((PlayerStats.numberOfWorkers - reqWorkers) < 0)
+        {
+            return PlayerStats.numberOfWorkers;
+        }
+        return reqWorkers;
+    }
+
+    /// <summary>
+    /// kontrola zdali se nejaky pocet workeru vrati
+    /// </summary>
+    /// <returns></returns>
+    public bool isReturningWorkers()
+    {
+        int returnWorkersPercentage = (int)(returnWorkersProbabilityCoeficient + (returnWorkersProbabilityCoeficient * PlayerStats.threat / 100));
+        //print(returnWorkersPercentage);
+        if (Random.Range(0, 100) < returnWorkersPercentage)
+        {
+            workersReturned = true;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// pocet workeru kteri se vrati
+    /// </summary>
+    /// <returns></returns>
+    public int getNumberOfReturnedWorkers()
+    {
+        int returnW = (int)(PlayerStats.numberOfWorkers * workersCoeficient);
+        return returnW;
+    }
+
+    /// <summary>
+    /// pocet obdrzenych jednotek
+    /// </summary>
+    /// <returns></returns>
+    public int obtainResources()
+    {
+        return (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 10) - (PlayerStats.threat / 3));
+    }
+}
+
 public class EventsHandler : MonoBehaviour {
 
-    [System.Serializable]
-    public class MineEvent
+    public string topDescription
     {
-        [Tooltip("pro vypocet akci spojenych s workery"),Range(0.1f,1)]
-        public float workersCoeficient = 0.3f;
+        get;
+        set;
+    }
 
-        [Range(1,100)]
-        public int returnWorkersProbabilityCoeficient = 50;
-
-        public int succesfullMineXp = 200;
-        public int returnWorkersXp = 50;
-
-        public bool workersReturned = false;
-
-        /// <summary>
-        /// pocet workeru kteri se dectou od celkoveho poctu workeru
-        /// </summary>
-        /// <returns></returns>
-        public int workersRequire()
-        {
-            return (int)(PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel);
-        }
-
-        /// <summary>
-        /// kontrola zdali se nejaky pocet workeru vrati
-        /// </summary>
-        /// <returns></returns>
-        public bool isReturningWorkers()
-        {
-            int returnWorkersPercentage = (int)(returnWorkersProbabilityCoeficient + (returnWorkersProbabilityCoeficient * PlayerStats.threat/100));
-            //print(returnWorkersPercentage);
-            if (Random.Range(0, 100) < returnWorkersPercentage)
-            {
-                workersReturned = true;
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// pocet workeru kteri se vrati
-        /// </summary>
-        /// <returns></returns>
-        public int getNumberOfReturnedWorkers()
-        {
-            int returnW = (int)(PlayerStats.numberOfWorkers * workersCoeficient);
-            return returnW;
-        }
-
-        /// <summary>
-        /// pocet obdrzenych jednotek
-        /// </summary>
-        /// <returns></returns>
-        public int obtainResources()
-        {
-            return (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 10) - (PlayerStats.threat / 3));
-        }
+    public string botDescription
+    {
+        get;
+        set;
     }
 
     public MineEvent mine = new MineEvent();
@@ -70,11 +87,13 @@ public class EventsHandler : MonoBehaviour {
 
     void Start () {
         actionTaken = false;
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+        topDescription = printDescription(GetComponent<CellActionCreater>().upOption);
+        botDescription = printDescription(GetComponent<CellActionCreater>().downOption);
 	}
 
     public void takeAction(ActionType a,string actionType)
@@ -89,9 +108,19 @@ public class EventsHandler : MonoBehaviour {
                 }
             case ActionType.Mine:
                 {
-                    //print(mine.isReturningWorkers());
-                    PlayerStats.numberOfResources += mine.obtainResources();
-                    PlayerStats.numberOfWorkers -= mine.workersRequire();
+
+                    if (PlayerStats.numberOfWorkers <= 0)
+                    {
+                        PlayerStats.numberOfWorkers = 0;
+                    }
+                    else
+                    {
+                        PlayerStats.numberOfWorkers -= mine.workersRequire();
+                        PlayerStats.numberOfResources += mine.obtainResources();
+                    }
+
+                    
+                    
                     if (mine.isReturningWorkers())
                     {
                         PlayerStats.numberOfWorkers += mine.getNumberOfReturnedWorkers();
@@ -99,6 +128,14 @@ public class EventsHandler : MonoBehaviour {
                     }
 
                     PlayerStats.experience += mine.succesfullMineXp;
+                    if (actionType == "up")
+                    {
+                        topDescription = printDescription(a);
+                    }
+                    else if (actionType == "down")
+                    {
+                        botDescription = printDescription(a);
+                    }
 
                     break;
                 }
@@ -125,16 +162,32 @@ public class EventsHandler : MonoBehaviour {
             case ActionType.Mine:
                 {
                     if (!actionTaken)
-                        return "Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainResources();
-                    else
                     {
-                        if (mine.workersReturned)
+                        if (PlayerStats.numberOfWorkers > 0)
                         {
-                            return "vytezeno, vraceno workers";
+                            return "Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainResources();
                         }
                         else
                         {
-                            return "vytezeno";
+                            return "Not enough workers --TODO:punishment--"; 
+                        }
+                    }
+                    else
+                    {
+                        if (PlayerStats.numberOfWorkers > 0)
+                        {
+                            if (mine.workersReturned)
+                            {
+                                return "vytezeno, vraceno workers";
+                            }
+                            else
+                            {
+                                return "vytezeno";
+                            }
+                        }
+                        else
+                        {
+                            return "here im obligated to tell you that you were punished!";
                         }
                     }
                 }

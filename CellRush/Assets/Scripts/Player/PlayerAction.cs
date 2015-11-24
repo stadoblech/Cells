@@ -15,6 +15,9 @@ public class PlayerAction : MonoBehaviour {
         set;
     }
 
+
+    
+
 	void Start () {
         actionMade = true;
 	}

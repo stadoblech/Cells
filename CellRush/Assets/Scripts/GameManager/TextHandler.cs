@@ -20,8 +20,10 @@ public class TextHandler : MonoBehaviour {
 
         if (activeCell != null)
         {
-            topText.text = activeCell.GetComponent<EventsHandler>().printDescription(activeCell.GetComponent<CellActionCreater>().upOption);
-            bottomText.text = activeCell.GetComponent<EventsHandler>().printDescription(activeCell.GetComponent<CellActionCreater>().downOption);
+            //topText.text = activeCell.GetComponent<EventsHandler>().printDescription(activeCell.GetComponent<CellActionCreater>().upOption);
+            //bottomText.text = activeCell.GetComponent<EventsHandler>().printDescription(activeCell.GetComponent<CellActionCreater>().downOption);
+            topText.text = activeCell.GetComponent<EventsHandler>().topDescription;
+            bottomText.text = activeCell.GetComponent<EventsHandler>().botDescription;
         }
         else
         {
