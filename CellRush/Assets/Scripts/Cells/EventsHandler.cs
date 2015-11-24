@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
+#region event classes 
+
 public class Event
 {
     /// <summary>
@@ -23,10 +25,28 @@ public class MineEvent : Event
     [Range(1, 100)]
     public int returnWorkersProbabilityCoeficient = 50;
 
+    [Range(1, 100)]
+    public int failMinningProbability = 5;
+
     public int succesfullMineXp = 200;
     public int returnWorkersXp = 50;
 
-    public bool workersReturned = false;
+    public bool workersReturned
+    {
+        get;
+        set;
+    }
+
+    public bool minningFailed
+    {
+        get;
+        set;
+    }
+
+    public MineEvent()
+    {
+        workersReturned = false;
+    }
 
     /// <summary>
     /// pocet workeru kteri se dectou od celkoveho poctu workeru
@@ -58,6 +78,17 @@ public class MineEvent : Event
         return false;
     }
 
+    public bool isMinningFailed()
+    {
+        minningFailed = false;
+        if (Random.Range(0, 100) < failMinningProbability + (PlayerStats.threat / 10))
+        {
+            minningFailed = true;
+            return true;
+        }
+        return false;
+    }
+
     /// <summary>
     /// pocet workeru kteri se vrati
     /// </summary>
@@ -77,6 +108,8 @@ public class MineEvent : Event
         return (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 10) - (PlayerStats.threat / 3));
     }
 }
+
+#endregion
 
 public class EventsHandler : MonoBehaviour {
 
@@ -108,7 +141,7 @@ public class EventsHandler : MonoBehaviour {
         botDescription = printDescription(GetComponent<CellActionCreater>().downOption);
 	}
 
-    public void takeAction(ActionType a,string actionType)
+    public void takeAction(ActionType a,string actionDirection)
     {
         actionTaken = true;
         switch (a)
@@ -120,35 +153,7 @@ public class EventsHandler : MonoBehaviour {
                 }
             case ActionType.Mine:
                 {
-                    if (actionType == "up")
-                    {
-                        topDescription = printDescription(a);
-                    }
-                    else if (actionType == "down")
-                    {
-                        botDescription = printDescription(a);
-                    }
-
-                    if (PlayerStats.numberOfWorkers <= 0)
-                    {
-                        PlayerStats.numberOfWorkers = -1;
-                        PlayerStats.threat += mine.addThreat();
-                    }
-                    else
-                    {
-                        PlayerStats.numberOfWorkers -= mine.workersRequire();
-                        PlayerStats.numberOfResources += mine.obtainResources();
-                        
-                        if (mine.isReturningWorkers())
-                        {
-                            PlayerStats.numberOfWorkers += mine.getNumberOfReturnedWorkers();
-                            PlayerStats.experience += mine.returnWorkersXp;
-                        }
-                    }
-
-                    PlayerStats.experience += mine.succesfullMineXp;
-                    
-
+                    mineAction(a,actionDirection);
                     break;
                 }
             case ActionType.Explore:
@@ -173,35 +178,7 @@ public class EventsHandler : MonoBehaviour {
                 }
             case ActionType.Mine:
                 {
-                    if (!actionTaken)
-                    {
-                        if (PlayerStats.numberOfWorkers > 0)
-                        {
-                            return "Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainResources();
-                        }
-                        else
-                        {
-                            return "Not enough workers --TODO:punishment--"; 
-                        }
-                    }
-                    else
-                    {
-                        if (PlayerStats.numberOfWorkers >= 0)
-                        {
-                            if (mine.workersReturned && mine.getNumberOfReturnedWorkers() > 0)
-                            {
-                                return "vytezeno, vraceno workers";
-                            }
-                            else
-                            {
-                                return "vytezeno";
-                            }
-                        }
-                        else
-                        {
-                            return "here im obligated to tell you that you were punished!";
-                        }
-                    }
+                    return MinningText();
                 }
             case ActionType.Explore:
                 {
@@ -214,5 +191,77 @@ public class EventsHandler : MonoBehaviour {
         }
         return "";
     }
+
+    #region Event action region
+    
+    void mineAction(ActionType a,string actionDirection)
+    {
+        if (actionDirection == "up")
+        {
+            topDescription = printDescription(a);
+        }
+        else if (actionDirection == "down")
+        {
+            botDescription = printDescription(a);
+        }
+
+        if (PlayerStats.numberOfWorkers <= 0)
+        {
+            PlayerStats.numberOfWorkers = -1;
+            PlayerStats.threat += mine.addThreat();
+        }
+        else
+        {
+            PlayerStats.numberOfResources += mine.obtainResources();
+            PlayerStats.numberOfWorkers -= mine.workersRequire();
+
+            if (mine.isReturningWorkers())
+            {
+                PlayerStats.numberOfWorkers += mine.getNumberOfReturnedWorkers();
+                PlayerStats.experience += mine.returnWorkersXp;
+            }
+        }
+
+        PlayerStats.experience += mine.succesfullMineXp;
+    }
+
+    #endregion
+
+    #region Event text region
+
+    private string MinningText()
+    {
+        if (!actionTaken)
+        {
+            if (PlayerStats.numberOfWorkers > 0)
+            {
+                return "Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainResources();
+            }
+            else
+            {
+                return "Not enough workers --TODO:punishment--";
+            }
+        }
+        else
+        {
+            if (PlayerStats.numberOfWorkers >= 0)
+            {
+                if (mine.workersReturned && mine.getNumberOfReturnedWorkers() > 0)
+                {
+                    return "vytezeno, vraceno workers";
+                }
+                else
+                {
+                    return "vytezeno";
+                }
+            }
+            else
+            {
+                return "here im obligated to tell you that you were punished!";
+            }
+        }
+    }
+
+    #endregion
 
 }
