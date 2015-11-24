@@ -2,8 +2,20 @@
 using System.Collections;
 using UnityEngine.UI;
 
+public class Event
+{
+    /// <summary>
+    /// TODO : implement threat!!
+    /// </summary>
+    /// <returns></returns>
+    public int addThreat()
+    {
+        return 10;
+    }
+}
+
 [System.Serializable]
-public class MineEvent
+public class MineEvent : Event
 {
     [Tooltip("pro vypocet akci spojenych s workery"), Range(0.1f, 1)]
     public float workersCoeficient = 0.3f;
@@ -108,26 +120,6 @@ public class EventsHandler : MonoBehaviour {
                 }
             case ActionType.Mine:
                 {
-
-                    if (PlayerStats.numberOfWorkers <= 0)
-                    {
-                        PlayerStats.numberOfWorkers = 0;
-                    }
-                    else
-                    {
-                        PlayerStats.numberOfWorkers -= mine.workersRequire();
-                        PlayerStats.numberOfResources += mine.obtainResources();
-                    }
-
-                    
-                    
-                    if (mine.isReturningWorkers())
-                    {
-                        PlayerStats.numberOfWorkers += mine.getNumberOfReturnedWorkers();
-                        PlayerStats.experience += mine.returnWorkersXp;
-                    }
-
-                    PlayerStats.experience += mine.succesfullMineXp;
                     if (actionType == "up")
                     {
                         topDescription = printDescription(a);
@@ -136,6 +128,26 @@ public class EventsHandler : MonoBehaviour {
                     {
                         botDescription = printDescription(a);
                     }
+
+                    if (PlayerStats.numberOfWorkers <= 0)
+                    {
+                        PlayerStats.numberOfWorkers = -1;
+                        PlayerStats.threat += mine.addThreat();
+                    }
+                    else
+                    {
+                        PlayerStats.numberOfWorkers -= mine.workersRequire();
+                        PlayerStats.numberOfResources += mine.obtainResources();
+                        
+                        if (mine.isReturningWorkers())
+                        {
+                            PlayerStats.numberOfWorkers += mine.getNumberOfReturnedWorkers();
+                            PlayerStats.experience += mine.returnWorkersXp;
+                        }
+                    }
+
+                    PlayerStats.experience += mine.succesfullMineXp;
+                    
 
                     break;
                 }
@@ -174,7 +186,7 @@ public class EventsHandler : MonoBehaviour {
                     }
                     else
                     {
-                        if (PlayerStats.numberOfWorkers > 0)
+                        if (PlayerStats.numberOfWorkers >= 0)
                         {
                             if (mine.workersReturned)
                             {

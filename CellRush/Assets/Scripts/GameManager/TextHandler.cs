@@ -9,6 +9,11 @@ public class TextHandler : MonoBehaviour {
     public Text bottomText;
     public Text statsText;
 
+    private int numOfWorkers;
+    private string numOfTroops;
+    private string currentLevel;
+    private string threat;
+    private string numOfresources;
 
 	void Start () {
 	
@@ -16,6 +21,15 @@ public class TextHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (PlayerStats.numberOfWorkers > 0)
+        {
+            numOfWorkers = PlayerStats.numberOfWorkers;
+        }
+        else
+        {
+            numOfWorkers = 0;
+        }
         activeCell = Cells.getActiveCell();
 
         if (activeCell != null)
@@ -32,7 +46,7 @@ public class TextHandler : MonoBehaviour {
         }
 
         statsText.text = "Current level " + PlayerStats.currentLevel +
-            ";Workers " + PlayerStats.numberOfWorkers +
+            ";Workers " + numOfWorkers +
             ";Troops " + PlayerStats.numberOfTroops +
             ";Threat " + PlayerStats.threat +
             ";Resources " + PlayerStats.numberOfResources;
