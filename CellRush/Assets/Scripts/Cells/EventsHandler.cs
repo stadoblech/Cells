@@ -188,7 +188,7 @@ public class EventsHandler : MonoBehaviour {
                     {
                         if (PlayerStats.numberOfWorkers >= 0)
                         {
-                            if (mine.workersReturned)
+                            if (mine.workersReturned && mine.getNumberOfReturnedWorkers() > 0)
                             {
                                 return "vytezeno, vraceno workers";
                             }
