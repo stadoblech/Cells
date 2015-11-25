@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Cells : MonoBehaviour {
 
@@ -21,7 +22,13 @@ public class Cells : MonoBehaviour {
             {
                 return o;
             }
+            else if (o.GetComponent<CellHandler>() == null)
+            {
+                return null;
+            }
+
         }
+
         return null;
     }
 

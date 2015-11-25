@@ -34,6 +34,7 @@ public class MineEvent : Event
     public int failMinningProbability = 5;
 
     public int succesfullMineXp = 200;
+    public int unsuccesfullMineXp = 100;
     public int returnWorkersXp = 50;
 
     public bool workersReturned
@@ -231,7 +232,15 @@ public class EventsHandler : MonoBehaviour {
         }
         else
         {
-            mine.isMinningFailed();
+            if (mine.isMinningFailed())
+            {
+                PlayerStats.experience += mine.unsuccesfullMineXp;
+            }
+            else
+            {
+                PlayerStats.experience += mine.succesfullMineXp;
+            }
+
             PlayerStats.numberOfResources += mine.obtainResources();
             PlayerStats.numberOfWorkers -= mine.workersRequire();
 
@@ -241,8 +250,6 @@ public class EventsHandler : MonoBehaviour {
                 PlayerStats.experience += mine.returnWorkersXp;
             }
         }
-
-        PlayerStats.experience += mine.succesfullMineXp;
     }
 
     #endregion

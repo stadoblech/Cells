@@ -47,7 +47,7 @@ public class PlayerAction : MonoBehaviour {
         }
 	}
 
-    void takeAction(ActionType c,string action)
+    void takeAction(ActionType c, string action)
     {
         switch (c)
         {
@@ -61,7 +61,7 @@ public class PlayerAction : MonoBehaviour {
                 }
             case ActionType.Mine:
                 {
-                    activeCell.GetComponent<EventsHandler>().takeAction(c,action);
+                    activeCell.GetComponent<EventsHandler>().takeAction(c, action);
                     break;
                 }
         }

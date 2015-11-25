@@ -16,4 +16,21 @@ public class CellHandler : MonoBehaviour {
     void Update () {
 	
 	}
+
+    public GameObject getActiveCell()
+    {
+
+        foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
+        {
+            if (o != null)
+            {
+                if (o.GetComponent<CellHandler>().activeCell)
+                {
+                    return o;
+                }
+            }
+        }
+
+        return null;
+    }
 }

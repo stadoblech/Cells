@@ -59,7 +59,10 @@ public class BoardManager : MonoBehaviour {
     {
         foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
         {
-            o.GetComponent<CellHandler>().activeCell = false;
+            if (activeCellID-1 == o.GetComponent<CellHandler>().cellID)
+            {
+                o.GetComponent<CellHandler>().activeCell = false;
+            }
             if (activeCellID == o.GetComponent<CellHandler>().cellID)
             {
                 o.GetComponent<CellHandler>().activeCell = true;
