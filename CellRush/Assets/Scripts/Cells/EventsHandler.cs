@@ -14,6 +14,11 @@ public class Event
     {
         return 10;
     }
+
+    public int decreaseThreat()
+    {
+        return 10;
+    }
 }
 
 [System.Serializable]
@@ -22,10 +27,10 @@ public class MineEvent : Event
     [Tooltip("pro vypocet akci spojenych s workery"), Range(0.1f, 1)]
     public float workersCoeficient = 0.3f;
 
-    [Range(1, 100)]
+    [Range(1, 100),Tooltip("probability + (probability * (threat/100))")]
     public int returnWorkersProbabilityCoeficient = 50;
 
-    [Range(1, 100)]
+    [Range(1, 100),Tooltip("probability + (threat/10)")]
     public int failMinningProbability = 5;
 
     public int succesfullMineXp = 200;
@@ -70,7 +75,7 @@ public class MineEvent : Event
     {
         int returnWorkersPercentage = (int)(returnWorkersProbabilityCoeficient + (returnWorkersProbabilityCoeficient * PlayerStats.threat / 100));
         //print(returnWorkersPercentage);
-        if (Random.Range(0, 100) < returnWorkersPercentage)
+        if (Random.Range(0, 100) < returnWorkersPercentage && !minningFailed)
         {
             workersReturned = true;
             return true;
@@ -105,8 +110,21 @@ public class MineEvent : Event
     /// <returns></returns>
     public int obtainResources()
     {
-        return (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 10) - (PlayerStats.threat / 3));
+        int obtRes = (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 10) - (PlayerStats.threat / 3));
+        if(minningFailed)
+        {
+            return obtRes/2;
+        }
+        return obtRes;
     }
+}
+
+[System.Serializable]
+public class FightEvent : Event
+{
+    [Range(0.1f,1)]
+    public float fighterCoeficient;
+
 }
 
 #endregion
@@ -126,6 +144,7 @@ public class EventsHandler : MonoBehaviour {
     }
 
     public MineEvent mine = new MineEvent();
+    public FightEvent fight = new FightEvent();
 
 
     bool actionTaken;
@@ -212,6 +231,7 @@ public class EventsHandler : MonoBehaviour {
         }
         else
         {
+            mine.isMinningFailed();
             PlayerStats.numberOfResources += mine.obtainResources();
             PlayerStats.numberOfWorkers -= mine.workersRequire();
 
@@ -249,6 +269,10 @@ public class EventsHandler : MonoBehaviour {
                 if (mine.workersReturned && mine.getNumberOfReturnedWorkers() > 0)
                 {
                     return "vytezeno, vraceno workers";
+                }
+                else if (mine.minningFailed)
+                {
+                    return "oups something gone wrong, mined but less";
                 }
                 else
                 {
