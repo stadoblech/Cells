@@ -124,7 +124,18 @@ public class MineEvent : Event
 public class FightEvent : Event
 {
     [Range(0.1f,1)]
-    public float fighterCoeficient;
+    public float troopsCoeficient;
+
+
+    public int numberOfTroopsRequired()
+    {
+        int numOfTroops = (int)((PlayerStats.numberOfTroops * (PlayerStats.threat / 100)) + (troopsCoeficient * 10));
+        if (PlayerStats.numberOfTroops - numOfTroops < 0)
+        {
+            return PlayerStats.numberOfTroops;
+        }
+        return numOfTroops;
+    }
 
 }
 

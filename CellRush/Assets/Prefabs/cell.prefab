@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11415852}
   - 114: {fileID: 11436310}
   m_Layer: 0
-  m_Name: cell
+  m_Name: Cell
   m_TagString: cell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
     unsuccesfullMineXp: 100
     returnWorkersXp: 50
   fight:
-    fighterCoeficient: .300000012
+    troopsCoeficient: 0
 --- !u!114 &11484600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92439efb71692e4292ab71281a99824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellID: 5
+  cellID: 4
   activeCell: 0
   usedCell: 0
 --- !u!212 &21215832
@@ -136,6 +136,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: mine.returnWorkersProbabilityCoeficient
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: cellID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: activeCell
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

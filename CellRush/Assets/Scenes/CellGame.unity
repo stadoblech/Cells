@@ -286,7 +286,7 @@ Prefab:
       objectReference: {fileID: 1456483633}
     - target: {fileID: 11440728, guid: 8a42b624001503846add56f142cf6683, type: 2}
       propertyPath: numberOfCells
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a42b624001503846add56f142cf6683, type: 2}
