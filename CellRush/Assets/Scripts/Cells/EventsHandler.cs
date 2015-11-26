@@ -60,10 +60,15 @@ public class MineEvent : Event
     /// <returns></returns>
     public int workersRequire()
     {
-        int reqWorkers = (int)(PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel);
+        int reqWorkers = (int)(PlayerStats.numberOfWorkers * workersCoeficient);
         if((PlayerStats.numberOfWorkers - reqWorkers) < 0)
         {
             return PlayerStats.numberOfWorkers;
+        }
+
+        if (reqWorkers <= 0)
+        {
+            return 1;
         }
         return reqWorkers;
     }
@@ -129,11 +134,19 @@ public class FightEvent : Event
 
     public int numberOfTroopsRequired()
     {
-        int numOfTroops = (int)((PlayerStats.numberOfTroops * (PlayerStats.threat / 100)) + (troopsCoeficient * 10));
+        float troopsRatio = PlayerStats.threat / 100f;
+        int numOfTroops = (int)((PlayerStats.numberOfTroops * troopsRatio));
         if (PlayerStats.numberOfTroops - numOfTroops < 0)
         {
             return PlayerStats.numberOfTroops;
         }
+
+        /*
+        if (numOfTroops <= 0)
+        {
+            return 1;
+        }
+         * */
         return numOfTroops;
     }
 
@@ -159,27 +172,32 @@ public class EventsHandler : MonoBehaviour {
     public FightEvent fight = new FightEvent();
 
 
-    bool actionTaken;
+    bool topActionTaken;
+    bool botActionTaken;
 
     void Start () {
-        actionTaken = false;
-        
+        topActionTaken = false;
+        botActionTaken = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        topDescription = printDescription(GetComponent<CellActionCreater>().upOption);
-        botDescription = printDescription(GetComponent<CellActionCreater>().downOption);
+        topDescription = printDescription(GetComponent<CellActionCreater>().upOption,topActionTaken);
+        botDescription = printDescription(GetComponent<CellActionCreater>().downOption,botActionTaken);
 	}
 
     public void takeAction(ActionType a,string actionDirection)
     {
-        actionTaken = true;
+        if (actionDirection == "up")
+            topActionTaken = true;
+        else if (actionDirection == "down")
+            botActionTaken = true;
+
         switch (a)
         {
             case ActionType.Battle:
                 {
-                    
+                    battleAction(a,actionDirection);
                     break;
                 }
             case ActionType.Mine:
@@ -198,18 +216,17 @@ public class EventsHandler : MonoBehaviour {
         }
     }
 
-    public string printDescription(ActionType a)
+    public string printDescription(ActionType a,bool actionTaken)
     {
         switch (a)
         {
             case ActionType.Battle:
                 {
-                    return("battle");
-
+                    return fightText(actionTaken);
                 }
             case ActionType.Mine:
                 {
-                    return MinningText();
+                    return MinningText(actionTaken);
                 }
             case ActionType.Explore:
                 {
@@ -227,6 +244,7 @@ public class EventsHandler : MonoBehaviour {
     
     void mineAction(ActionType a,string actionDirection)
     {
+        /*
         if (actionDirection == "up")
         {
             topDescription = printDescription(a);
@@ -235,7 +253,9 @@ public class EventsHandler : MonoBehaviour {
         {
             botDescription = printDescription(a);
         }
+         * */
 
+        /// Pozor !!! pri poctu workers 0 nebo mene se na UI zobrazuje 0 ale realna hodnota je vzdy -1 !!!!!
         if (PlayerStats.numberOfWorkers <= 0)
         {
             PlayerStats.numberOfWorkers = -1;
@@ -263,11 +283,39 @@ public class EventsHandler : MonoBehaviour {
         }
     }
 
+    void battleAction(ActionType a, string actionDirection)
+    {
+
+    }
+
     #endregion
 
     #region Event text region
 
-    private string MinningText()
+    private string fightText(bool actionTaken)
+    {
+        if (!actionTaken)
+        {
+            if (PlayerStats.numberOfTroops > 0)
+            {
+                return "battle: je treba " + fight.numberOfTroopsRequired() + " troops.";
+            }
+            else
+            {
+                return "Not enough fighters --TODO:punishment--";
+            }
+        }
+        else
+        {
+            if (PlayerStats.numberOfTroops > 0)
+            {
+                return "battle action taken";
+            }
+            return "";
+        }
+    }
+
+    private string MinningText(bool actionTaken)
     {
         if (!actionTaken)
         {

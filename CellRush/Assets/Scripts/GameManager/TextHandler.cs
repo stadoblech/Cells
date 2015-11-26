@@ -30,12 +30,12 @@ public class TextHandler : MonoBehaviour {
         {
             numOfWorkers = 0;
         }
+
+
         activeCell = Cells.getActiveCell();
 
         if (activeCell != null)
         {
-            //topText.text = activeCell.GetComponent<EventsHandler>().printDescription(activeCell.GetComponent<CellActionCreater>().upOption);
-            //bottomText.text = activeCell.GetComponent<EventsHandler>().printDescription(activeCell.GetComponent<CellActionCreater>().downOption);
             topText.text = activeCell.GetComponent<EventsHandler>().topDescription;
             bottomText.text = activeCell.GetComponent<EventsHandler>().botDescription;
         }
@@ -50,7 +50,5 @@ public class TextHandler : MonoBehaviour {
             ";Troops " + PlayerStats.numberOfTroops +
             ";Threat " + PlayerStats.threat +
             ";Resources " + PlayerStats.numberOfResources;
-
-        //print(activeCell.GetComponent<CellHandler>().activeCell);
 	}
 }

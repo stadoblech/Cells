@@ -49,10 +49,12 @@ public class PlayerAction : MonoBehaviour {
 
     void takeAction(ActionType c, string action)
     {
+        
         switch (c)
         {
             case ActionType.Battle:
                 {
+                    activeCell.GetComponent<EventsHandler>().takeAction(c,action);
                     break;
                 }
             case ActionType.Explore:
@@ -65,5 +67,7 @@ public class PlayerAction : MonoBehaviour {
                     break;
                 }
         }
+
+        //activeCell.GetComponent<EventsHandler>().takeAction(c, action);
     }
 }
