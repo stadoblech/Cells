@@ -10,9 +10,10 @@ public class Event
     /// TODO : implement threat!!
     /// </summary>
     /// <returns></returns>
-    public int addThreat()
+    public void addThreat(int percentage)
     {
-        return 10;
+        int thr = (int)(PlayerStats.threat/100f * percentage);
+        PlayerStats.threat += thr;
     }
 
     public int decreaseThreat()
@@ -130,6 +131,9 @@ public class FightEvent : Event
 {
     [Range(0.1f,1)]
     public float troopsCoeficient;
+
+    [Range(0,100)]
+    public int notEnoughtTroopsPunishment;
 
     public int survivingTroops
     {
@@ -290,7 +294,7 @@ public class EventsHandler : MonoBehaviour {
         if (PlayerStats.numberOfWorkers <= 0)
         {
             PlayerStats.numberOfWorkers = -1;
-            PlayerStats.threat += mine.addThreat();
+            //PlayerStats.threat += mine.addThreat();
         }
         else
         {
@@ -323,6 +327,7 @@ public class EventsHandler : MonoBehaviour {
         else
         {
             /// TADY JE PUNISHMENT ZA MALO TROOPS 
+            fight.addThreat(fight.notEnoughtTroopsPunishment);
         }
 
         PlayerStats.numberOfTroops -= fight.defeatetTroops;
