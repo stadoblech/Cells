@@ -13,12 +13,21 @@ public class Event
     public void addThreat(int percentage)
     {
         int thr = (int)(PlayerStats.threat/100f * percentage);
+        if (thr == 0)
+        {
+            thr = 1;
+        }
         PlayerStats.threat += thr;
     }
 
-    public int decreaseThreat()
+    public void decreaseThreat(int percentage)
     {
-        return 10;
+        int thr = (int)(PlayerStats.threat / 100f * percentage);
+        if (thr == 0)
+        {
+            thr = 1;
+        }
+        PlayerStats.threat -= thr;
     }
 }
 
@@ -29,10 +38,13 @@ public class MineEvent : Event
     public float workersCoeficient = 0.3f;
 
     [Range(1, 100),Tooltip("probability + (probability * (threat/100))")]
-    public int returnWorkersProbabilityCoeficient = 50;
+    public int workersReturnProbability = 50;
 
     [Range(1, 100),Tooltip("probability + (threat/10)")]
     public int failMinningProbability = 5;
+
+    [Range(1,10),Tooltip("v procentech. Pro vypocet pridani threat pri 0 workers a snahu o mining")]
+    public int threatPenalty;
 
     public int succesfullMineXp = 200;
     public int unsuccesfullMineXp = 100;
@@ -80,7 +92,7 @@ public class MineEvent : Event
     /// <returns></returns>
     public bool isReturningWorkers()
     {
-        int returnWorkersPercentage = (int)(returnWorkersProbabilityCoeficient + (returnWorkersProbabilityCoeficient * PlayerStats.threat / 100));
+        int returnWorkersPercentage = (int)(workersReturnProbability - (workersReturnProbability * PlayerStats.threat / 100));
         //print(returnWorkersPercentage);
         if (Random.Range(0, 100) < returnWorkersPercentage && !minningFailed)
         {
@@ -108,6 +120,10 @@ public class MineEvent : Event
     public int getNumberOfReturnedWorkers()
     {
         int returnW = (int)(PlayerStats.numberOfWorkers * workersCoeficient);
+        if (returnW == 0)
+        {
+            return 1;
+        }
         return returnW;
     }
 
@@ -129,11 +145,11 @@ public class MineEvent : Event
 [System.Serializable]
 public class FightEvent : Event
 {
-    [Range(0.1f,1)]
-    public float troopsCoeficient;
-
-    [Range(0,100)]
+    [Range(0,100),Tooltip("v procentech. Penalty za fight bey troops")]
     public int notEnoughtTroopsPunishment;
+
+    [Range(0,100),Tooltip("v procentech. Kolik procent se snizi za kazdeho usmrceneho troop")]
+    public int decreaseThreatPerTroop;
 
     public int survivingTroops
     {
@@ -295,6 +311,7 @@ public class EventsHandler : MonoBehaviour {
         {
             PlayerStats.numberOfWorkers = -1;
             //PlayerStats.threat += mine.addThreat();
+            mine.addThreat(mine.threatPenalty);
         }
         else
         {
@@ -323,6 +340,7 @@ public class EventsHandler : MonoBehaviour {
         if (!fight.notEnoughFighters)
         {
             fight.calculateCausalities();
+            fight.decreaseThreat(fight.defeatetTroops*fight.decreaseThreatPerTroop+PlayerStats.currentLevel);
         }
         else
         {
@@ -354,7 +372,7 @@ public class EventsHandler : MonoBehaviour {
         {
             if (!fight.notEnoughFighters)
             {
-                return "battle action taken";
+                return "returned " + fight.survivingTroops;
             }
             else
             {
