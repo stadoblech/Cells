@@ -1,0 +1,7 @@
+Mining: 
+
+how much is required workers : current number of workers  * workers coeficient.
+======
+probability of returning workers : probability - (probability * (threat/100))
+=======
+number of workers returned : 
