@@ -131,6 +131,23 @@ public class FightEvent : Event
     [Range(0.1f,1)]
     public float troopsCoeficient;
 
+    public int survivingTroops
+    {
+        get;
+        set;
+    }
+
+    public int defeatetTroops
+    {
+        get;
+        set;
+    }
+
+    public bool notEnoughFighters
+    {
+        get;
+        set;
+    }
 
     public int numberOfTroopsRequired()
     {
@@ -140,7 +157,39 @@ public class FightEvent : Event
         {
             return PlayerStats.numberOfTroops;
         }
+        if(numOfTroops <= 0)
+        {
+            notEnoughFighters = true;
+        }else
+            notEnoughFighters = false;
+
         return numOfTroops;
+    }
+
+    public void calculateCausalities()
+    {
+        int numberOfTroops = numberOfTroopsRequired();
+
+        int defeatOdds = PlayerStats.threat - PlayerStats.currentLevel;
+        if (defeatOdds > 90)
+        {
+            defeatOdds = 90;
+        }
+        else if (defeatOdds < 10)
+        {
+            defeatOdds = 10;
+        }
+
+        for (int i = 0; i < numberOfTroops; i++)
+        {
+            if (Random.Range(0, 100) > defeatOdds)
+            {
+                survivingTroops++;
+            }
+            else
+                defeatetTroops++;
+        }
+        MonoBehaviour.print("defeated:"+defeatetTroops+" surviving:"+survivingTroops);
     }
 
 }
@@ -267,33 +316,16 @@ public class EventsHandler : MonoBehaviour {
 
     void battleAction()
     {
-        int numberOfTroops = fight.numberOfTroopsRequired();
-
-        int survivingTroops = 0;
-        int defeatetTroops = 0;
-
-        int defeatOdds = PlayerStats.threat - PlayerStats.currentLevel;
-        if (defeatOdds > 90)
+        if (!fight.notEnoughFighters)
         {
-            defeatOdds = 90;
+            fight.calculateCausalities();
         }
-        else if (defeatOdds < 10)
+        else
         {
-            defeatOdds = 10;
+            /// TADY JE PUNISHMENT ZA MALO TROOPS 
         }
 
-        for (int i = 0; i < numberOfTroops; i++)
-        {
-            if (Random.Range(0, 100) > defeatOdds)
-            {
-                survivingTroops++;
-            }
-            else
-                defeatetTroops++;
-        }
-        print("defeated:"+defeatetTroops+" surviving:"+survivingTroops);
-
-
+        PlayerStats.numberOfTroops -= fight.defeatetTroops;
     }
 
     #endregion
@@ -304,7 +336,7 @@ public class EventsHandler : MonoBehaviour {
     {
         if (!actionTaken)
         {
-            if (PlayerStats.numberOfTroops > 0)
+            if (fight.numberOfTroopsRequired() >= 1)
             {
                 return "battle: je treba " + fight.numberOfTroopsRequired() + " troops.";
             }
@@ -315,9 +347,13 @@ public class EventsHandler : MonoBehaviour {
         }
         else
         {
-            if (PlayerStats.numberOfTroops > 0)
+            if (!fight.notEnoughFighters)
             {
                 return "battle action taken";
+            }
+            else
+            {
+                return "you are punished!";
             }
             return "";
         }
