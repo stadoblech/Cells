@@ -11,6 +11,10 @@ public class PlayerStats : MonoBehaviour
     public int startNumberOfResources;
     public int startThreatAmount;
 
+    public int maxNumberOfTroops;
+    public int maxNumberOfWorkers;
+    public int maxNumberOfResources;
+
     public static float size;
     public static int numberOfTroops;
     public static int numberOfWorkers;

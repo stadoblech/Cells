@@ -140,13 +140,6 @@ public class FightEvent : Event
         {
             return PlayerStats.numberOfTroops;
         }
-
-        /*
-        if (numOfTroops <= 0)
-        {
-            return 1;
-        }
-         * */
         return numOfTroops;
     }
 
@@ -197,12 +190,12 @@ public class EventsHandler : MonoBehaviour {
         {
             case ActionType.Battle:
                 {
-                    battleAction(a,actionDirection);
+                    battleAction();
                     break;
                 }
             case ActionType.Mine:
                 {
-                    mineAction(a,actionDirection);
+                    mineAction();
                     break;
                 }
             case ActionType.Explore:
@@ -242,19 +235,8 @@ public class EventsHandler : MonoBehaviour {
 
     #region Event action region
     
-    void mineAction(ActionType a,string actionDirection)
+    void mineAction()
     {
-        /*
-        if (actionDirection == "up")
-        {
-            topDescription = printDescription(a);
-        }
-        else if (actionDirection == "down")
-        {
-            botDescription = printDescription(a);
-        }
-         * */
-
         /// Pozor !!! pri poctu workers 0 nebo mene se na UI zobrazuje 0 ale realna hodnota je vzdy -1 !!!!!
         if (PlayerStats.numberOfWorkers <= 0)
         {
@@ -283,8 +265,34 @@ public class EventsHandler : MonoBehaviour {
         }
     }
 
-    void battleAction(ActionType a, string actionDirection)
+    void battleAction()
     {
+        int numberOfTroops = fight.numberOfTroopsRequired();
+
+        int survivingTroops = 0;
+        int defeatetTroops = 0;
+
+        int defeatOdds = PlayerStats.threat - PlayerStats.currentLevel;
+        if (defeatOdds > 90)
+        {
+            defeatOdds = 90;
+        }
+        else if (defeatOdds < 10)
+        {
+            defeatOdds = 10;
+        }
+
+        for (int i = 0; i < numberOfTroops; i++)
+        {
+            if (Random.Range(0, 100) > defeatOdds)
+            {
+                survivingTroops++;
+            }
+            else
+                defeatetTroops++;
+        }
+        print("defeated:"+defeatetTroops+" surviving:"+survivingTroops);
+
 
     }
 
