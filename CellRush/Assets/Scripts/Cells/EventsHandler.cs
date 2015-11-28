@@ -165,10 +165,10 @@ public class FightEvent : Event
     [Range(0,100),Tooltip("v procentech. Kolik procent threat se snizi za kazdeho usmrceneho troop")]
     public int decreaseThreatPerTroop;
 
-    [Tooltip("pocet xp kdyz je defeated troops vyzsi nez survived troops")]
+    [Tooltip("pocet xp kdyz je defeated troops vyzsi nez survived troops. Vice xp")]
     public int xpForDefeatedTroops;
 
-    [Tooltip("pocet xp kdyz je defeated troops mensi nez survived troops")]
+    [Tooltip("pocet xp kdyz je defeated troops mensi nez survived troops. Mene xp")]
     public int xpForSurvivingTroops;
 
     public int xpForDraw
@@ -380,6 +380,19 @@ public class EventsHandler : MonoBehaviour {
         {
             fight.calculateCausalities();
             fight.decreaseThreat(fight.defeatetTroops*fight.decreaseThreatPerTroop+PlayerStats.currentLevel);
+
+            if (fight.defeatetTroops > fight.survivingTroops)
+            {
+                PlayerStats.experience += fight.xpForDefeatedTroops;
+            }
+            else if (fight.defeatetTroops < fight.survivingTroops)
+            {
+                PlayerStats.experience += fight.xpForSurvivingTroops;
+            }
+            else if (fight.defeatetTroops == fight.survivingTroops)
+            {
+                PlayerStats.experience += fight.xpForDraw;
+            }
         }
         else
         {
@@ -387,18 +400,7 @@ public class EventsHandler : MonoBehaviour {
             fight.addThreat(fight.notEnoughtTroopsPunishment);
         }
 
-        if (fight.defeatetTroops > fight.survivingTroops)
-        {
-            PlayerStats.experience += fight.xpForDefeatedTroops;
-        }
-        else if (fight.defeatetTroops < fight.survivingTroops)
-        {
-            PlayerStats.experience += fight.xpForSurvivingTroops;
-        }
-        else if (fight.defeatetTroops == fight.survivingTroops)
-        {
-            PlayerStats.experience += fight.xpForDraw;
-        }
+        
 
         PlayerStats.numberOfTroops -= fight.defeatetTroops;
     }
