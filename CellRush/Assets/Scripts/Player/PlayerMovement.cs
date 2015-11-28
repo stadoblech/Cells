@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 positionToMove;
     bool firtsMove;
 
+    [Tooltip("threat za jedno posunuti policka. V procentech. Vypocet: (threat/100) * threatByAction + actualLevel")]
+    public int threatByAction;
+    float threatFromLastTurn = 0;
+
     public bool finishedMoving
     {
         get;
@@ -42,6 +46,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (Input.GetKeyDown(nextCellKey))
             {
+                addThreat();
+
                 positionToMove = Cells.getActiveCell().transform.position;
                 finishedMoving = false;
                 timeToActionCooldown = timeToAction;
@@ -70,5 +76,17 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
         }
-	}   
+	}
+
+    void addThreat()
+    {
+        print(threatFromLastTurn);
+        float F_thr = ((PlayerStats.threat / 100f) * threatByAction) + threatFromLastTurn;
+        
+        int I_thr = (int)F_thr;
+
+        threatFromLastTurn = F_thr - I_thr;
+
+        PlayerStats.threat += I_thr;
+    }
 }

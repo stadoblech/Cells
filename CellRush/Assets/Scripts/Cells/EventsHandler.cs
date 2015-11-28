@@ -6,10 +6,6 @@ using UnityEngine.UI;
 
 public class Event
 {
-    /// <summary>
-    /// TODO : implement threat!!
-    /// </summary>
-    /// <returns></returns>
     public void addThreat(int percentage)
     {
         int thr = (int)(PlayerStats.threat/100f * percentage);
@@ -31,6 +27,10 @@ public class Event
     }
 }
 
+/// <summary>
+/// TODO 
+/// - extra loot possibility
+/// </summary>
 [System.Serializable]
 public class MineEvent : Event
 {
@@ -142,6 +142,11 @@ public class MineEvent : Event
     }
 }
 
+
+/// <summary>
+/// TODO 
+/// - extra loot possibility (based on surviving troops)
+/// </summary>
 [System.Serializable]
 public class FightEvent : Event
 {

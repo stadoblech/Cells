@@ -9,6 +9,8 @@ public class PlayerAction : MonoBehaviour {
     public KeyCode downAction = KeyCode.DownArrow;
     public KeyCode skipAction = KeyCode.LeftArrow;
 
+    
+
     public bool actionMade
     {
         get;
@@ -49,7 +51,6 @@ public class PlayerAction : MonoBehaviour {
 
     void takeAction(ActionType c, string action)
     {
-        
         switch (c)
         {
             case ActionType.Battle:
@@ -70,4 +71,6 @@ public class PlayerAction : MonoBehaviour {
 
         //activeCell.GetComponent<EventsHandler>().takeAction(c, action);
     }
+
+    
 }
