@@ -148,8 +148,23 @@ public class FightEvent : Event
     [Range(0,100),Tooltip("v procentech. Penalty za fight bey troops")]
     public int notEnoughtTroopsPunishment;
 
-    [Range(0,100),Tooltip("v procentech. Kolik procent se snizi za kazdeho usmrceneho troop")]
+    [Range(0,100),Tooltip("v procentech. Kolik procent threat se snizi za kazdeho usmrceneho troop")]
     public int decreaseThreatPerTroop;
+
+
+    [Tooltip("pocet xp kdyz je defeated troops vyzsi nez survived troops")]
+    public int xpForDefeatedTroops;
+
+    [Tooltip("pocet xp kdyz je defeated troops mensi nez survived troops")]
+    public int xpForSurvivingTroops;
+
+    public int xpForDraw
+    {
+        get
+        {
+            return (xpForDefeatedTroops + xpForSurvivingTroops) / 2;
+        }
+    }
 
     public int survivingTroops
     {
@@ -348,6 +363,19 @@ public class EventsHandler : MonoBehaviour {
             fight.addThreat(fight.notEnoughtTroopsPunishment);
         }
 
+        if (fight.defeatetTroops > fight.survivingTroops)
+        {
+            PlayerStats.experience += fight.xpForDefeatedTroops;
+        }
+        else if (fight.defeatetTroops < fight.survivingTroops)
+        {
+            PlayerStats.experience += fight.xpForSurvivingTroops;
+        }
+        else if (fight.defeatetTroops == fight.survivingTroops)
+        {
+            PlayerStats.experience += fight.xpForDraw;
+        }
+
         PlayerStats.numberOfTroops -= fight.defeatetTroops;
     }
 
@@ -372,7 +400,7 @@ public class EventsHandler : MonoBehaviour {
         {
             if (!fight.notEnoughFighters)
             {
-                return "returned " + fight.survivingTroops;
+                return "returned:" + fight.survivingTroops + " died:"+fight.defeatetTroops;
             }
             else
             {

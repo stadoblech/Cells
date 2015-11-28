@@ -49,6 +49,6 @@ public class TextHandler : MonoBehaviour {
             ";Workers " + numOfWorkers +
             ";Troops " + PlayerStats.numberOfTroops +
             ";Threat " + PlayerStats.threat +
-            ";Resources " + PlayerStats.numberOfResources;
+            ";Resources " + PlayerStats.numberOfResources + "; xp "+PlayerStats.experience;
 	}
 }
