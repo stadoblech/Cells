@@ -46,6 +46,9 @@ public class MineEvent : Event
     [Range(1,10),Tooltip("v procentech. Pro vypocet pridani threat pri 0 workers a snahu o mining")]
     public int threatPenalty;
 
+    [Tooltip("v procentech. Prida thread pri fail minning")]
+    public int threatForFailMinning;
+
     public int succesfullMineXp = 200;
     public int unsuccesfullMineXp = 100;
     public int returnWorkersXp = 50;
@@ -150,12 +153,17 @@ public class MineEvent : Event
 [System.Serializable]
 public class FightEvent : Event
 {
-    [Range(0,100),Tooltip("v procentech. Penalty za fight bey troops")]
+    [Range(1,100),Tooltip("v procentech. Pravdepodobnost failu troops. basefailProbability + threat - level")]
+    public int baseFailTroopProbability;
+
+    [Tooltip("Zakladni pocet vyzadovanych troops")]
+    public int baseTroopRequirement;
+    
+    [Range(0,100),Tooltip("v procentech. Penalty za fight bez troops")]
     public int notEnoughtTroopsPunishment;
 
     [Range(0,100),Tooltip("v procentech. Kolik procent threat se snizi za kazdeho usmrceneho troop")]
     public int decreaseThreatPerTroop;
-
 
     [Tooltip("pocet xp kdyz je defeated troops vyzsi nez survived troops")]
     public int xpForDefeatedTroops;
@@ -192,25 +200,35 @@ public class FightEvent : Event
     public int numberOfTroopsRequired()
     {
         float troopsRatio = PlayerStats.threat / 100f;
-        int numOfTroops = (int)((PlayerStats.numberOfTroops * troopsRatio));
+        float numOfTroops = ((PlayerStats.numberOfTroops * troopsRatio)) + baseTroopRequirement;
+        
         if (PlayerStats.numberOfTroops - numOfTroops < 0)
         {
-            return PlayerStats.numberOfTroops;
+            numOfTroops = PlayerStats.numberOfTroops;
         }
-        if(numOfTroops <= 0)
+
+        if (numOfTroops < 1 && numOfTroops > 0)
+        {
+            numOfTroops = 1;
+        }
+
+        if (numOfTroops <= 0)
         {
             notEnoughFighters = true;
-        }else
+        }
+        else
+        {
             notEnoughFighters = false;
+        }
 
-        return numOfTroops;
+        return (int)numOfTroops;
     }
 
     public void calculateCausalities()
     {
         int numberOfTroops = numberOfTroopsRequired();
 
-        int defeatOdds = PlayerStats.threat - PlayerStats.currentLevel;
+        int defeatOdds = PlayerStats.threat - PlayerStats.currentLevel + baseFailTroopProbability;
         if (defeatOdds > 90)
         {
             defeatOdds = 90;
@@ -229,7 +247,7 @@ public class FightEvent : Event
             else
                 defeatetTroops++;
         }
-        MonoBehaviour.print("defeated:"+defeatetTroops+" surviving:"+survivingTroops);
+        //MonoBehaviour.print("defeated:"+defeatetTroops+" surviving:"+survivingTroops);
     }
 
 }
@@ -338,6 +356,7 @@ public class EventsHandler : MonoBehaviour {
             if (mine.isMinningFailed())
             {
                 PlayerStats.experience += mine.unsuccesfullMineXp;
+                mine.addThreat(mine.threatForFailMinning);
             }
             else
             {
