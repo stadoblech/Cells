@@ -226,11 +226,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
       propertyPath: startNumberOfTroops
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
       propertyPath: startNumberOfWorkers
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 11482920, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
       propertyPath: threatByAction
@@ -238,7 +238,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
       propertyPath: startNumberOfResources
-      value: 50
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
+      propertyPath: startThreatAmount
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}

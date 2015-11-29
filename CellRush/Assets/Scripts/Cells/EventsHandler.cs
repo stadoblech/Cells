@@ -37,6 +37,11 @@ public class MineEvent : Event
     [Tooltip("pro vypocet akci spojenych s workery"), Range(0.1f, 1)]
     public float workersCoeficient = 0.3f;
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    public int miningCoeficient;
+
     [Range(1, 100),Tooltip("probability + (probability * (threat/100))")]
     public int workersReturnProbability = 50;
 
@@ -137,12 +142,18 @@ public class MineEvent : Event
     /// pocet obdrzenych jednotek
     /// </summary>
     /// <returns></returns>
-    public int obtainResources()
+    public int obtainedResources()
     {
-        int obtRes = (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 10) - (PlayerStats.threat / 3));
+        //int obtRes = (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 5) - (PlayerStats.threat / 3));
+        int obtRes = (int)((PlayerStats.numberOfWorkers * workersCoeficient * 2) - 
+            (PlayerStats.numberOfWorkers * workersCoeficient * (PlayerStats.threat)/100)); 
         if(minningFailed)
         {
-            return obtRes/2;
+           obtRes /= 2;
+        }
+        if (obtRes == 0)
+        {
+            obtRes = 1;
         }
         return obtRes;
     }
@@ -378,7 +389,7 @@ public class EventsHandler : MonoBehaviour {
                 PlayerStats.experience += mine.succesfullMineXp;
             }
 
-            PlayerStats.numberOfResources += mine.obtainResources();
+            PlayerStats.numberOfResources += mine.obtainedResources();
             PlayerStats.numberOfWorkers -= mine.workersRequire();
 
             if (mine.isReturningWorkers())
@@ -457,7 +468,7 @@ public class EventsHandler : MonoBehaviour {
         {
             if (PlayerStats.numberOfWorkers > 0)
             {
-                return "Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainResources();
+                return "Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainedResources();
             }
             else
             {
