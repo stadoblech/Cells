@@ -60,13 +60,16 @@ MonoBehaviour:
     workersReturnProbability: 12
     failMinningProbability: 5
     threatPenalty: 2
+    threatForFailMinning: 15
     succesfullMineXp: 200
     unsuccesfullMineXp: 100
     returnWorkersXp: 50
   fight:
+    baseFailTroopProbability: 64
+    baseTroopRequirement: 5
     notEnoughtTroopsPunishment: 10
     decreaseThreatPerTroop: 2
-    xpForDefeatedTroops: 120
+    xpForDefeatedTroops: 200
     xpForSurvivingTroops: 80
 --- !u!114 &11484600
 MonoBehaviour:
@@ -79,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92439efb71692e4292ab71281a99824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellID: 6
+  cellID: 10
   activeCell: 0
   usedCell: 0
 --- !u!212 &21215832
@@ -167,11 +170,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: fight.xpForDefeatedTroops
-      value: 120
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: fight.xpForSurvivingTroops
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: mine.threatForFailMinning
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fight.baseFailTroopProbability
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fight.baseTroopRequirement
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

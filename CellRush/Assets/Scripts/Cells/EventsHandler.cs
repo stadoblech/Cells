@@ -49,6 +49,9 @@ public class MineEvent : Event
     [Tooltip("v procentech. Prida thread pri fail minning")]
     public int threatForFailMinning;
 
+    [Tooltip("v procentech. Pro moznost extra lootu. Zatim bez funcknosti")]
+    public int extraLootPossibility;
+
     public int succesfullMineXp = 200;
     public int unsuccesfullMineXp = 100;
     public int returnWorkersXp = 50;
@@ -249,6 +252,18 @@ public class FightEvent : Event
         }
         //MonoBehaviour.print("defeated:"+defeatetTroops+" surviving:"+survivingTroops);
     }
+
+}
+
+[System.Serializable]
+public class ExploreEvent : Event
+{
+
+}
+
+[System.Serializable]
+public class BuildEvent : Event
+{
 
 }
 
