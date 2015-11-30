@@ -18,7 +18,7 @@ public class Cells : MonoBehaviour {
     {
         foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
         {
-            if (o.GetComponent<CellHandler>().activeCell)
+            if (o.GetComponent<CellHandler>().activeCell && o != null)
             {
                 return o;
             }

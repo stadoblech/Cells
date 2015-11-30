@@ -57,7 +57,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mine:
     workersCoeficient: .300000012
-    miningCoeficient: 0
     workersReturnProbability: 12
     failMinningProbability: 5
     threatPenalty: 2
@@ -73,6 +72,9 @@ MonoBehaviour:
     decreaseThreatPerTroop: 2
     xpForDefeatedTroops: 200
     xpForSurvivingTroops: 80
+  explore:
+    troopsRequireCoeficient: .300000012
+    notEnoughTroopsPenalty: 5
 --- !u!114 &11484600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92439efb71692e4292ab71281a99824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellID: 7
+  cellID: 11
   activeCell: 0
   usedCell: 0
 --- !u!212 &21215832
@@ -189,6 +191,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: fight.baseTroopRequirement
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: explore.troopsRequireCoeficient
+      value: .300000012
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

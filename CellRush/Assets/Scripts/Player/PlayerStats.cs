@@ -5,7 +5,7 @@ public class PlayerStats : MonoBehaviour
 {
 
     public int xpForNextLevel;
-    public int startLevel;
+    public int startLevel = 1;
     public int startNumberOfTroops;
     public int startNumberOfWorkers;
     public int startNumberOfResources;

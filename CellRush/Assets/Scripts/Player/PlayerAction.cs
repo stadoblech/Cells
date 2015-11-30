@@ -60,6 +60,7 @@ public class PlayerAction : MonoBehaviour {
                 }
             case ActionType.Explore:
                 {
+                    activeCell.GetComponent<EventsHandler>().takeAction(c,action);
                     break;
                 }
             case ActionType.Mine:

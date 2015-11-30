@@ -37,11 +37,6 @@ public class MineEvent : Event
     [Tooltip("pro vypocet akci spojenych s workery"), Range(0.1f, 1)]
     public float workersCoeficient = 0.3f;
 
-    /// <summary>
-    /// TODO
-    /// </summary>
-    public int miningCoeficient;
-
     [Range(1, 100),Tooltip("probability + (probability * (threat/100))")]
     public int workersReturnProbability = 50;
 
@@ -68,6 +63,12 @@ public class MineEvent : Event
     }
 
     public bool minningFailed
+    {
+        get;
+        set;
+    }
+
+    public bool foundTroops
     {
         get;
         set;
@@ -160,7 +161,6 @@ public class MineEvent : Event
     }
 }
 
-
 /// <summary>
 /// TODO 
 /// - extra loot possibility (based on surviving troops)
@@ -239,9 +239,9 @@ public class FightEvent : Event
         return (int)numOfTroops;
     }
 
-    public void calculateCausalities()
+    public void calculateCausalities(int numOfTroops)
     {
-        int numberOfTroops = numberOfTroopsRequired();
+        int numberOfTroops = numOfTroops;
 
         int defeatOdds = PlayerStats.threat - PlayerStats.currentLevel + baseFailTroopProbability;
         if (defeatOdds > 90)
@@ -270,7 +270,81 @@ public class FightEvent : Event
 [System.Serializable]
 public class ExploreEvent : Event
 {
+    [Range(0f,1f),Tooltip("koeficient troops. Pocet vyzadovanych jednotek : num of troops * coeficient")]
+    public float troopsRequireCoeficient;
 
+    [Tooltip("v procentech. Postih za 0 troops. Snizeni threat")]
+    public int notEnoughTroopsPenalty = 5;
+
+    public bool fight
+    {
+        get;
+        set;
+    }
+
+    public int lostTroops
+    {
+        get;
+        set;
+    }
+
+    public bool notEnoughTroops
+    {
+        get
+        {
+            if (PlayerStats.numberOfTroops <= 0)
+            {
+                return true;
+            }
+            else
+                return false;
+
+        }
+    }
+
+    public int numberOfTroopsRequired()
+    {
+        float troops = (PlayerStats.numberOfTroops * troopsRequireCoeficient);
+        if (troops > 0 && troops < 1)
+        {
+            troops = 1;
+        }
+
+        /*
+        if (troops <= 0)
+        {
+            notEnoughTroops = true;
+        }
+        else
+        {
+            notEnoughTroops = false;
+        }
+         * */
+        return (int)troops;
+    }
+
+    void commitFight()
+    {
+        int numberOfTroops = numberOfTroopsRequired();
+        int lostTroopsRatio = Random.Range(20,50);
+
+        lostTroops = (int)(numberOfTroops - ((numberOfTroops / 100f) * lostTroopsRatio));
+        if (lostTroops == 0 && !notEnoughTroops)
+        {
+            lostTroops = 1;
+        }
+
+        PlayerStats.numberOfTroops -= lostTroops; 
+
+    }
+
+    public void explore()
+    {
+        if (Random.Range(0, 100) < PlayerStats.threat)
+        {
+            commitFight();
+        }
+    }
 }
 
 [System.Serializable]
@@ -297,6 +371,7 @@ public class EventsHandler : MonoBehaviour {
 
     public MineEvent mine = new MineEvent();
     public FightEvent fight = new FightEvent();
+    public ExploreEvent explore = new ExploreEvent();
 
 
     bool topActionTaken;
@@ -334,6 +409,7 @@ public class EventsHandler : MonoBehaviour {
                 }
             case ActionType.Explore:
                 {
+                    exploreAction();
                     break;
                 }
             case ActionType.Build:
@@ -405,7 +481,7 @@ public class EventsHandler : MonoBehaviour {
     {
         if (!fight.notEnoughFighters)
         {
-            fight.calculateCausalities();
+            fight.calculateCausalities(fight.numberOfTroopsRequired());
             fight.decreaseThreat((fight.defeatetTroops*fight.decreaseThreatPerTroop)+PlayerStats.currentLevel);
 
             if (fight.defeatetTroops > fight.survivingTroops)
@@ -430,6 +506,19 @@ public class EventsHandler : MonoBehaviour {
         
 
         PlayerStats.numberOfTroops -= fight.defeatetTroops;
+    }
+
+    void exploreAction()
+    {
+        if (!explore.notEnoughTroops)
+        {
+            explore.explore();
+        }
+        else
+        {
+            explore.addThreat(explore.notEnoughTroopsPenalty);
+        }
+        
     }
 
     #endregion
