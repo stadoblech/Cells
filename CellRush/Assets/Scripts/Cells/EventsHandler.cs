@@ -406,7 +406,7 @@ public class EventsHandler : MonoBehaviour {
         if (!fight.notEnoughFighters)
         {
             fight.calculateCausalities();
-            fight.decreaseThreat(fight.defeatetTroops*fight.decreaseThreatPerTroop+PlayerStats.currentLevel);
+            fight.decreaseThreat((fight.defeatetTroops*fight.decreaseThreatPerTroop)+PlayerStats.currentLevel);
 
             if (fight.defeatetTroops > fight.survivingTroops)
             {

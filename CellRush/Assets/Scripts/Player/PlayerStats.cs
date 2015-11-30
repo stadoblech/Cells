@@ -5,7 +5,7 @@ public class PlayerStats : MonoBehaviour
 {
 
     public int xpForNextLevel;
-    public float startSize;
+    public int startLevel;
     public int startNumberOfTroops;
     public int startNumberOfWorkers;
     public int startNumberOfResources;
@@ -27,12 +27,11 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        size = startSize;
         numberOfTroops = startNumberOfTroops;
         numberOfWorkers = startNumberOfWorkers;
         numberOfResources = startNumberOfResources;
         threat = startThreatAmount;
-        currentLevel = 1;
+        currentLevel = startLevel;
 
     }
 
