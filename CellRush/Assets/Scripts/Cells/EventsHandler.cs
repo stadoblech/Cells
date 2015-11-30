@@ -145,8 +145,9 @@ public class MineEvent : Event
     public int obtainedResources()
     {
         //int obtRes = (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 5) - (PlayerStats.threat / 3));
-        int obtRes = (int)((PlayerStats.numberOfWorkers * workersCoeficient * 2) - 
-            (PlayerStats.numberOfWorkers * workersCoeficient * (PlayerStats.threat)/100)); 
+        int obtRes = (int)((PlayerStats.numberOfWorkers * workersCoeficient*2.5f) - 
+            ((PlayerStats.numberOfWorkers * workersCoeficient)/100f * PlayerStats.threat))+PlayerStats.currentLevel;
+        
         if(minningFailed)
         {
            obtRes /= 2;
