@@ -178,10 +178,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11420368, guid: ccf302d8db2619b4cbd7db98d425f006, type: 2}
-      propertyPath: m_FontData.m_HorizontalOverflow
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ccf302d8db2619b4cbd7db98d425f006, type: 2}
   m_IsPrefabParent: 0
@@ -223,30 +219,6 @@ Prefab:
     - target: {fileID: 483352, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
-      propertyPath: startNumberOfTroops
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
-      propertyPath: startNumberOfWorkers
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 11482920, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
-      propertyPath: threatByAction
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
-      propertyPath: startNumberOfResources
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 11468286, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
-      propertyPath: startThreatAmount
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 2085678, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}
-      propertyPath: orthographic size
-      value: 4.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 92f3f14e669eabc428e5df399b94a202, type: 2}

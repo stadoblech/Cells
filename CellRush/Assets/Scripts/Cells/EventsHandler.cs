@@ -276,7 +276,10 @@ public class ExploreEvent : Event
     [Tooltip("v procentech. Postih za 0 troops. Snizeni threat")]
     public int notEnoughTroopsPenalty = 5;
 
-    public bool fight
+    [Tooltip("v procentech. Mnoystvi increase/decrease threat pri lootu")]
+    public int increaseOrDecreaseThreat = 2;
+
+    public bool fightCommited
     {
         get;
         set;
@@ -302,6 +305,11 @@ public class ExploreEvent : Event
         }
     }
 
+    public ExploreEvent()
+    {
+        fightCommited = false;
+    }
+
     public int numberOfTroopsRequired()
     {
         float troops = (PlayerStats.numberOfTroops * troopsRequireCoeficient);
@@ -309,17 +317,6 @@ public class ExploreEvent : Event
         {
             troops = 1;
         }
-
-        /*
-        if (troops <= 0)
-        {
-            notEnoughTroops = true;
-        }
-        else
-        {
-            notEnoughTroops = false;
-        }
-         * */
         return (int)troops;
     }
 
@@ -342,7 +339,67 @@ public class ExploreEvent : Event
     {
         if (Random.Range(0, 100) < PlayerStats.threat)
         {
+            fightCommited = true;
             commitFight();
+        }
+
+        getLoot();
+    }
+
+    void getLoot()
+    {
+        if (fightCommited) /// jestli byla bitva
+        {
+            int rand = Random.Range(0,2);
+            
+            if (rand == 0) /// jenom jeden loot
+            {
+                rand = Random.Range(0,2);
+                if (rand == 0) /// prida resources
+                {
+                    PlayerStats.numberOfResources += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired();
+                }
+                else if (rand == 1) /// prida workers
+                {
+                    PlayerStats.numberOfWorkers += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired(); 
+                }
+            }
+            else if (rand == 1) // dvakrat loot 
+            {
+                PlayerStats.numberOfResources += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired() / 2;
+                PlayerStats.numberOfWorkers += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired() / 2;
+            }
+
+            decreaseThreat(increaseOrDecreaseThreat);
+        }
+        else /// bez bitvy
+        {
+            int randPick = Random.Range(0,4);
+            if (randPick == 3)
+            {
+                PlayerStats.numberOfResources += PlayerStats.currentLevel * randPick;
+            }
+            else if (randPick == 2)
+            {
+                PlayerStats.numberOfResources += PlayerStats.currentLevel * randPick;
+                PlayerStats.numberOfWorkers += PlayerStats.currentLevel * randPick;
+            }
+            else if (randPick == 1)
+            {
+                PlayerStats.numberOfResources += PlayerStats.currentLevel * randPick;
+                PlayerStats.numberOfWorkers += PlayerStats.currentLevel * randPick;
+                PlayerStats.numberOfTroops += PlayerStats.currentLevel * randPick;
+            }
+
+            randPick = Random.Range(0,2);
+            if (randPick == 0)
+            {
+                decreaseThreat(increaseOrDecreaseThreat);
+            }
+            else if (randPick == 1)
+            {
+                decreaseThreat(increaseOrDecreaseThreat);
+            }
         }
     }
 }

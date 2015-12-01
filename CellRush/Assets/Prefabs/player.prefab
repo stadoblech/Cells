@@ -83,7 +83,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 4.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -136,11 +136,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xpForNextLevel: 1000
-  startSize: 1
-  startNumberOfTroops: 25
-  startNumberOfWorkers: 20
-  startNumberOfResources: 200
-  startThreatAmount: 25
+  startLevel: 5
+  startNumberOfTroops: 100
+  startNumberOfWorkers: 30
+  startNumberOfResources: 30
+  startThreatAmount: 10
+  maxNumberOfTroops: 0
+  maxNumberOfWorkers: 0
+  maxNumberOfResources: 0
 --- !u!114 &11482920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,6 +158,7 @@ MonoBehaviour:
   moveSpeed: 5
   timeToAction: 0
   nextCellKey: 275
+  threatByAction: 2
 --- !u!124 &12435506
 Behaviour:
   m_ObjectHideFlags: 1
