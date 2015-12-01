@@ -384,10 +384,22 @@ public class EventsHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        topDescription = printDescription(GetComponent<CellActionCreater>().upOption,topActionTaken);
-        botDescription = printDescription(GetComponent<CellActionCreater>().downOption,botActionTaken);
+        if (topActionTaken && !botActionTaken)
+        {
+            topDescription = printDescription(GetComponent<CellActionCreater>().upOption, topActionTaken);
+            botDescription = "";
+            return;
+        }else if (!topActionTaken && botActionTaken)
+        {
+            botDescription = printDescription(GetComponent<CellActionCreater>().downOption, botActionTaken);
+            topDescription = "";
+            return;
+        }
+        topDescription = printDescription(GetComponent<CellActionCreater>().upOption, topActionTaken);
+        botDescription = printDescription(GetComponent<CellActionCreater>().downOption, botActionTaken);
+        
 	}
-
+    
     public void takeAction(ActionType a,string actionDirection)
     {
         if (actionDirection == "up")
@@ -587,6 +599,15 @@ public class EventsHandler : MonoBehaviour {
                 return "here im obligated to tell you that you were punished!";
             }
         }
+    }
+
+    string exploreText(bool actionTaken)
+    {
+        if (!actionTaken)
+        {
+            return "send "+explore.numberOfTroopsRequired()+ " to explore.";
+        }
+        return "";
     }
 
     #endregion
