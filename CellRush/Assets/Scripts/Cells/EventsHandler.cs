@@ -744,7 +744,14 @@ public class EventsHandler : MonoBehaviour {
     {
         if (!actionTaken)
         {
-            return "send " + explore.numberOfTroopsRequired() + " troops to explore.";
+            if (!explore.notEnoughTroops)
+            {
+                return "send " + explore.numberOfTroopsRequired() + " troops to explore.";
+            }
+            else
+            {
+                return "not enough troops. I will punish you!";
+            }
         }
         else
         {
