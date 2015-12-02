@@ -49,7 +49,7 @@ public class MineEvent : Event
     [Tooltip("v procentech. Prida thread pri fail minning")]
     public int threatForFailMinning;
 
-    [Tooltip("v procentech. Pro moznost extra lootu. Zatim bez funcknosti")]
+    [Tooltip("v procentech. Pro moznost extra lootu. extraLootPossibility + actualLevel * 2")]
     public int extraLootPossibility;
 
     public int succesfullMineXp = 200;
@@ -74,9 +74,16 @@ public class MineEvent : Event
         set;
     }
 
+    public bool extraLoot
+    {
+        get;
+        set;
+    }
+
     public MineEvent()
     {
         workersReturned = false;
+        MonoBehaviour.print(extraLoot);
     }
 
     /// <summary>
@@ -158,6 +165,46 @@ public class MineEvent : Event
             obtRes = 1;
         }
         return obtRes;
+    }
+
+    public bool isExtraLooted()
+    {
+        int lootPos = extraLootPossibility + (PlayerStats.currentLevel * 2);
+        if (lootPos < 10)
+        {
+            lootPos = 10;
+        }
+        if (lootPos > 85)
+        {
+            lootPos = 85;
+        }
+        if (Random.Range(0, 100) < lootPos)
+        {
+            extraLoot = true;
+            return true;
+        }
+        else
+        {
+            extraLoot = false;
+            return false;
+        }
+
+            
+    }
+
+    public int getExtraTroops()
+    {
+        int extraTr;
+        extraTr = PlayerStats.currentLevel * PlayerStats.currentLevel;
+        if (extraTr > PlayerStats.numberOfTroops)
+        {
+            extraTr = PlayerStats.numberOfTroops;
+        }
+        if (extraTr < 5)
+        {
+            extraTr = 5;
+        }
+        return extraTr;
     }
 }
 
@@ -565,6 +612,11 @@ public class EventsHandler : MonoBehaviour {
                 PlayerStats.numberOfWorkers += mine.getNumberOfReturnedWorkers();
                 PlayerStats.experience += mine.returnWorkersXp;
             }
+            
+            if (mine.isExtraLooted())
+            {
+                PlayerStats.numberOfTroops += mine.getExtraTroops();
+            }
         }
     }
 
@@ -645,15 +697,16 @@ public class EventsHandler : MonoBehaviour {
 
     private string MinningText(bool actionTaken)
     {
+        string text = "";
         if (!actionTaken)
         {
             if (PlayerStats.numberOfWorkers > 0)
             {
-                return "Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainedResources();
+                text="Mine: je treba " + mine.workersRequire().ToString() + " na vytezeni " + mine.obtainedResources();
             }
             else
             {
-                return "Not enough workers --TODO:punishment--";
+                text = "Not enough workers --TODO:punishment--";
             }
         }
         else
@@ -662,22 +715,29 @@ public class EventsHandler : MonoBehaviour {
             {
                 if (mine.workersReturned && mine.getNumberOfReturnedWorkers() > 0)
                 {
-                    return "vytezeno, vraceno workers";
+                    text = "vytezeno, vraceno workers.";
                 }
                 else if (mine.minningFailed)
                 {
-                    return "oups something gone wrong, mined but less";
+                    text = "oups something gone wrong, mined but less.";
                 }
                 else
                 {
-                    return "vytezeno";
+                    text = "vytezeno.";
                 }
             }
             else
             {
-                return "here im obligated to tell you that you were punished!";
+                text = "here im obligated to tell you that you were punished!";
+            }
+
+            if (mine.extraLoot)
+            {
+                text += "Extra troops loot:" + mine.getExtraTroops();
             }
         }
+
+        return text;
     }
 
     string exploreText(bool actionTaken)
