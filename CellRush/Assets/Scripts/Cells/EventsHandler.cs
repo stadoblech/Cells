@@ -291,6 +291,12 @@ public class ExploreEvent : Event
         set;
     }
 
+    public int requireTroops
+    {
+        get;
+        set;
+    }
+
     public bool notEnoughTroops
     {
         get
@@ -305,6 +311,12 @@ public class ExploreEvent : Event
         }
     }
 
+    public string lootOutput
+    {
+        get;
+        set;
+    }
+
     public ExploreEvent()
     {
         fightCommited = false;
@@ -317,6 +329,7 @@ public class ExploreEvent : Event
         {
             troops = 1;
         }
+        requireTroops = (int)troops;
         return (int)troops;
     }
 
@@ -357,17 +370,20 @@ public class ExploreEvent : Event
                 rand = Random.Range(0,2);
                 if (rand == 0) /// prida resources
                 {
-                    PlayerStats.numberOfResources += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired();
+                    lootOutput = "added resources: " + ((PlayerStats.currentLevel * 2) + requireTroops);
+                    PlayerStats.numberOfResources += (PlayerStats.currentLevel * 2) + requireTroops;
                 }
                 else if (rand == 1) /// prida workers
                 {
-                    PlayerStats.numberOfWorkers += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired(); 
+                    lootOutput = "added workers: " + ((PlayerStats.currentLevel * 2) + requireTroops);
+                    PlayerStats.numberOfWorkers += (PlayerStats.currentLevel * 2) + requireTroops; 
                 }
             }
             else if (rand == 1) // dvakrat loot 
             {
-                PlayerStats.numberOfResources += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired() / 2;
-                PlayerStats.numberOfWorkers += (PlayerStats.currentLevel * 2) + numberOfTroopsRequired() / 2;
+                lootOutput = "added workers and resources: " + ((PlayerStats.currentLevel * 2) + requireTroops / 2);
+                PlayerStats.numberOfResources += (PlayerStats.currentLevel * 2) + requireTroops / 2;
+                PlayerStats.numberOfWorkers += (PlayerStats.currentLevel * 2) + requireTroops / 2;
             }
 
             decreaseThreat(increaseOrDecreaseThreat);
@@ -377,18 +393,24 @@ public class ExploreEvent : Event
             int randPick = Random.Range(0,4);
             if (randPick == 3)
             {
+                lootOutput = "added resources: " + PlayerStats.currentLevel * randPick;
                 PlayerStats.numberOfResources += PlayerStats.currentLevel * randPick;
             }
             else if (randPick == 2)
             {
+                lootOutput = "added resources,workers: " + PlayerStats.currentLevel * randPick;
                 PlayerStats.numberOfResources += PlayerStats.currentLevel * randPick;
                 PlayerStats.numberOfWorkers += PlayerStats.currentLevel * randPick;
             }
             else if (randPick == 1)
             {
+                lootOutput = "added resources,workers,troops: " + PlayerStats.currentLevel * randPick;
                 PlayerStats.numberOfResources += PlayerStats.currentLevel * randPick;
                 PlayerStats.numberOfWorkers += PlayerStats.currentLevel * randPick;
                 PlayerStats.numberOfTroops += PlayerStats.currentLevel * randPick;
+            }else if(randPick == 0)
+            {
+                lootOutput = "nothing found...";
             }
 
             randPick = Random.Range(0,2);
@@ -502,7 +524,7 @@ public class EventsHandler : MonoBehaviour {
                 }
             case ActionType.Explore:
                 {
-                    return("Explore");
+                    return exploreText(actionTaken);
                 }
             case ActionType.Build:
                 {
@@ -662,7 +684,18 @@ public class EventsHandler : MonoBehaviour {
     {
         if (!actionTaken)
         {
-            return "send "+explore.numberOfTroopsRequired()+ " to explore.";
+            return "send " + explore.numberOfTroopsRequired() + " troops to explore.";
+        }
+        else
+        {
+            if (explore.fightCommited)
+            {
+                return "there was battle. Troops died:" + explore.lostTroops + ". " + explore.lootOutput;
+            }
+            else
+            {
+                return explore.lootOutput;
+            }
         }
         return "";
     }
