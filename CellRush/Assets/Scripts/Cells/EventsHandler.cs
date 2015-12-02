@@ -258,6 +258,7 @@ public class FightEvent : Event
         get;
         set;
     }
+    
 
     public int numberOfTroopsRequired()
     {

@@ -43,5 +43,10 @@ public class PlayerStats : MonoBehaviour
             experience = 0;
             currentLevel++;
         }
+
+        if (threat < 5)
+        {
+            threat = 5;
+        }
     }
 }
