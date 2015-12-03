@@ -11,6 +11,8 @@ GameObject:
   - 114: {fileID: 11440728}
   - 114: {fileID: 11415876}
   - 114: {fileID: 11440826}
+  - 114: {fileID: 11464118}
+  - 114: {fileID: 11413968}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -30,6 +32,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11413968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad3b650b09e8c74d9c6d6a5f0b21145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: {fileID: 117964, guid: de390010f4b7a4f43bba2d278757a05d, type: 2}
+  numberOfElementsByOneSide: 5
 --- !u!114 &11415876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,6 +85,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   restartGame: 114
   quitGame: 113
+--- !u!114 &11464118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f3c6d76bda6d2449a2e39d3e131cbaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worker: {fileID: 113018, guid: 9388330b1eff5b9428cecec566d2abf8, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
