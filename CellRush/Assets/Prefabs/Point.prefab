@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 495376}
   - 212: {fileID: 21209862}
   - 50: {fileID: 5008508}
-  - 114: {fileID: 11466870}
   - 114: {fileID: 11481102}
   m_Layer: 0
   m_Name: Point
@@ -47,21 +46,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &11466870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 113018}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1682ad2f7a97d7b4a974cdb59ff35085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxGravDist: 5
-  maxGravity: 150
-  maxDistance: 4
-  returning: 0
 --- !u!114 &11481102
 MonoBehaviour:
   m_ObjectHideFlags: 1

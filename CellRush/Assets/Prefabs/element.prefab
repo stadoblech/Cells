@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 457392}
   - 212: {fileID: 21202928}
   - 114: {fileID: 11406914}
+  - 114: {fileID: 11447668}
   m_Layer: 0
   m_Name: element
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.7608967, y: 3.28754067, z: 0}
+  m_LocalPosition: {x: 11.4992752, y: 1.25825524, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -40,9 +41,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89f25abbd662594d80df1cf5e68fb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: .0500000007
+  minSpeed: .00999999978
   maxSpeed: .100000001
   position: top
+  moving: 1
+--- !u!114 &11447668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e46a8917919b9e4cac45fba8a41fb21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21202928
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -82,11 +95,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: minSpeed
-      value: .0500000007
+      value: .00999999978
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxSpeed
       value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: moving
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

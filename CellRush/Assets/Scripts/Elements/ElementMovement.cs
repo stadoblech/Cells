@@ -13,6 +13,8 @@ public class ElementMovement : MonoBehaviour {
     /// </summary>
     public string position;
 
+    public bool moving = true;
+
     Vector3 startPosition;
     bool entered = false;
 
@@ -24,7 +26,10 @@ public class ElementMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        transform.position -= new Vector3(speed,0);
+        if (moving)
+        {
+            transform.position -= new Vector3(speed, 0);
+        }
 
         if (GetComponent<SpriteRenderer>().isVisible && !entered)
         {

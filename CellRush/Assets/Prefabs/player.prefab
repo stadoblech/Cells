@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11482920}
   - 114: {fileID: 11429284}
   - 114: {fileID: 11468286}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ GameObject:
   - 92: {fileID: 9225440}
   - 124: {fileID: 12435506}
   - 81: {fileID: 8116530}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 483352}
@@ -83,7 +83,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.5
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -136,11 +136,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xpForNextLevel: 1000
-  startLevel: 5
-  startNumberOfTroops: 100
-  startNumberOfWorkers: 30
+  startLevel: 1
+  startNumberOfTroops: 20
+  startNumberOfWorkers: 20
   startNumberOfResources: 30
-  startThreatAmount: 10
+  startThreatAmount: 25
   maxNumberOfTroops: 0
   maxNumberOfWorkers: 0
   maxNumberOfResources: 0
@@ -158,7 +158,7 @@ MonoBehaviour:
   moveSpeed: 5
   timeToAction: 0
   nextCellKey: 275
-  threatByAction: 2
+  threatByAction: 8
 --- !u!124 &12435506
 Behaviour:
   m_ObjectHideFlags: 1
