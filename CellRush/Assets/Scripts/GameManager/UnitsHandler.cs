@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CreateUnits : MonoBehaviour {
+public class UnitsHandler : MonoBehaviour {
 
     public GameObject worker;
 

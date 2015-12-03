@@ -27,10 +27,6 @@ public class Event
     }
 }
 
-/// <summary>
-/// TODO 
-/// - extra loot possibility
-/// </summary>
 [System.Serializable]
 public class MineEvent : Event
 {
@@ -83,7 +79,6 @@ public class MineEvent : Event
     public MineEvent()
     {
         workersReturned = false;
-        MonoBehaviour.print(extraLoot);
     }
 
     /// <summary>
@@ -208,10 +203,7 @@ public class MineEvent : Event
     }
 }
 
-/// <summary>
-/// TODO 
-/// - extra loot possibility (based on surviving troops)
-/// </summary>
+
 [System.Serializable]
 public class FightEvent : Event
 {

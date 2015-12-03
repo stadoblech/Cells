@@ -12,23 +12,32 @@ public class MoveAroundObject : MonoBehaviour {
     bool addedForce = false;
 
 	void Start () {
-        player = GameObject.FindGameObjectWithTag("Player");
+        
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
+        player = GameObject.FindGameObjectWithTag("Player");
 
         float dist = Vector3.Distance(player.transform.position, transform.position);
         if (!returning)
         {
             if (!addedForce)
             {
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f)*2, Random.Range(-10f, 10f)*2));
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-16f,16f),Random.Range(-16f,16f)));
                 addedForce = true;
             }
             if (dist >= maxDistanceFromPlayer)
             {
                 returning = true;
+            }
+
+            if (!GetComponent<SpriteRenderer>().isVisible)
+            {
+                transform.position = player.transform.position;
+                returning = false;
+                addedForce = false;
             }
         }
         else
