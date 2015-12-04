@@ -284,6 +284,14 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11464118, guid: 8a42b624001503846add56f142cf6683, type: 2}
+      propertyPath: worker
+      value: 
+      objectReference: {fileID: 192994, guid: 9971853cbf57a4f46bcf4cbce47a288a, type: 2}
+    - target: {fileID: 11464118, guid: 8a42b624001503846add56f142cf6683, type: 2}
+      propertyPath: troop
+      value: 
+      objectReference: {fileID: 144348, guid: b6bfa1226531b1443a0379428d564940, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a42b624001503846add56f142cf6683, type: 2}
   m_IsPrefabParent: 0
