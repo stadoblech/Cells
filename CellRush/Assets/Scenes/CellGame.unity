@@ -280,6 +280,10 @@ Prefab:
       propertyPath: statsText
       value: 
       objectReference: {fileID: 1456483633}
+    - target: {fileID: 11464118, guid: 8a42b624001503846add56f142cf6683, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a42b624001503846add56f142cf6683, type: 2}
   m_IsPrefabParent: 0

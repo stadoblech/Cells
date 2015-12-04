@@ -8,47 +8,45 @@ public class MoveAroundObject : MonoBehaviour {
 
     GameObject player;
 
-    bool returning = false;
-    bool addedForce = false;
+    float playerSize;
+
+    Vector3 destination;
+
+    bool living = true;
 
 	void Start () {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerSize = player.GetComponent<SpriteRenderer>().bounds.size.x;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 
-        player = GameObject.FindGameObjectWithTag("Player");
-
-        float dist = Vector3.Distance(player.transform.position, transform.position);
-        if (!returning)
+        if (living)
         {
-            if (!addedForce)
+            float dist = Vector3.Distance(player.transform.position, transform.position);
+
+            if (dist >= playerSize)
             {
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-16f,16f),Random.Range(-16f,16f)));
-                addedForce = true;
+                destination = player.transform.position;
             }
-            if (dist >= maxDistanceFromPlayer)
+            if (transform.position == destination)
             {
-                returning = true;
+                destination = player.transform.position + new Vector3(Random.Range(-playerSize, playerSize), Random.Range(-playerSize, playerSize));
             }
 
-            if (!GetComponent<SpriteRenderer>().isVisible)
-            {
-                transform.position = player.transform.position;
-                returning = false;
-                addedForce = false;
-            }
+            transform.position = Vector3.MoveTowards(transform.position, destination, 3f * Time.deltaTime);
         }
         else
         {
-            transform.position = Vector2.MoveTowards(transform.position,player.transform.position,speed * Time.deltaTime);
-            if (transform.position == player.transform.position)
-            {
-                returning = false;
-                addedForce = false;
-            }
+            transform.position += destination * 3f * Time.deltaTime;
         }
+    }
 
-	}
+
+    public void setAwayDestination()
+    {
+        destination = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        living = false;
+    }
 }

@@ -21,6 +21,7 @@ public class PlayerAction : MonoBehaviour {
     
 
 	void Start () {
+
         actionMade = true;
 	}
 	

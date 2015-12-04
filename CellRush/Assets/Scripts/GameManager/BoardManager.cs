@@ -15,7 +15,6 @@ public class BoardManager : MonoBehaviour {
     int activeCellID = -1;
 
 	void Start () {
-
         player = GameObject.FindGameObjectWithTag("Player");
         playerSize = player.GetComponent<SpriteRenderer>().bounds.size;
 

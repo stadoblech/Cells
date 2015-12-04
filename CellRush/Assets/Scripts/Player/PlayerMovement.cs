@@ -3,10 +3,12 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
+
     public float moveSpeed;
     public float timeToAction;
     public KeyCode nextCellKey = KeyCode.RightArrow;
 
+    public static int movesCounter;
     float timeToActionCooldown;
     Vector3 positionToMove;
     bool firtsMove;
@@ -22,6 +24,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 	void Start () {
+        movesCounter = 0;
         if (timeToAction == 0)
         {
             timeToAction = 999;
@@ -34,7 +37,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
- 
+
         if (Input.GetKeyDown(nextCellKey) && firtsMove)
         {
             positionToMove = Cells.getActiveCell().transform.position;
@@ -44,8 +47,10 @@ public class PlayerMovement : MonoBehaviour {
 
         if (finishedMoving && !firtsMove && GetComponent<PlayerAction>().actionMade)
         {
+            
             if (Input.GetKeyDown(nextCellKey))
             {
+                movesCounter++;
                 addThreat();
 
                 positionToMove = Cells.getActiveCell().transform.position;
@@ -84,4 +89,6 @@ public class PlayerMovement : MonoBehaviour {
         threatFromLastTurn = F_thr - I_thr;
         PlayerStats.threat += I_thr;
     }
+
+    
 }

@@ -469,7 +469,9 @@ public class ExploreEvent : Event
 [System.Serializable]
 public class BuildEvent : Event
 {
-
+    public BuildEvent()
+    {
+    }
 }
 
 #endregion
