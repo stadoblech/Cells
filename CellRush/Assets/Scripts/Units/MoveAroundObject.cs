@@ -35,11 +35,11 @@ public class MoveAroundObject : MonoBehaviour {
                 destination = player.transform.position + new Vector3(Random.Range(-playerSize, playerSize), Random.Range(-playerSize, playerSize));
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, destination, 3f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
         }
         else
         {
-            transform.position += destination * 3f * Time.deltaTime;
+            transform.position += destination * speed * Time.deltaTime;
         }
     }
 

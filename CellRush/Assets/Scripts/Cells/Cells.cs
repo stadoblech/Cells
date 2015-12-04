@@ -27,7 +27,9 @@ public class Cells : MonoBehaviour {
                 return null;
             }
 
+
         }
+
 
         return null;
     }
@@ -36,6 +38,7 @@ public class Cells : MonoBehaviour {
     {
         foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
         {
+            
             if (o.GetComponent<CellHandler>().activeCell)
             {
                 return o.GetComponent<CellHandler>().cellID;
