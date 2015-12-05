@@ -11,9 +11,10 @@ GameObject:
   - 212: {fileID: 21202928}
   - 114: {fileID: 11406914}
   - 114: {fileID: 11447668}
+  - 114: {fileID: 11425320}
   m_Layer: 0
   m_Name: element
-  m_TagString: Untagged
+  m_TagString: Element
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,10 +42,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89f25abbd662594d80df1cf5e68fb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: .00999999978
-  maxSpeed: .100000001
-  position: top
-  moving: 1
+  minElementSpeed: 1
+  maxElementSpeed: 3
+--- !u!114 &11425320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa8799345102e264aa1627e277c40ed5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  living: 1
+  scaleSizingSpeed: .100000001
 --- !u!114 &11447668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,7 +91,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: f5ce0443eb717f448be495dbcc537cdf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
@@ -104,6 +116,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: moving
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxElementSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Element
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

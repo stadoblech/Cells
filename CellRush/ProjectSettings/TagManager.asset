@@ -8,6 +8,7 @@ TagManager:
   - activeCell
   - Worker
   - Troop
+  - Element
   layers:
   - Default
   - TransparentFX

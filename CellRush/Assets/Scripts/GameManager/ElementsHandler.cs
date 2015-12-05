@@ -9,7 +9,10 @@ public class ElementsHandler : MonoBehaviour
     [Tooltip("pocet resources ktere reprezentuji jeden element")]
     public int resourceAmountForElement = 5;
 
+    public int maxNumberOfElements = 25;
+
     int actualNumberOfElements;
+    int lastNumberOfElements;
 
     bool firstUpdate = true;
 
@@ -23,11 +26,14 @@ public class ElementsHandler : MonoBehaviour
         if (firstUpdate)
         {
             actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
+
             
-            if (actualNumberOfElements > 25)
+
+            if (actualNumberOfElements > maxNumberOfElements)
             {
-                actualNumberOfElements = 25;
+                actualNumberOfElements = maxNumberOfElements;
             }
+            lastNumberOfElements = actualNumberOfElements;
 
             for (int i = 0; i < actualNumberOfElements; i++)
             {
@@ -36,9 +42,42 @@ public class ElementsHandler : MonoBehaviour
 
             firstUpdate = false;
         }
-        
-        
 
+        actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
+        
+        if (actualNumberOfElements > 25)
+        {
+            actualNumberOfElements = 25;
+        }
+
+        if (actualNumberOfElements > lastNumberOfElements)
+        {
+            for (int i = 0; i < actualNumberOfElements - lastNumberOfElements;i++)
+                Instantiate(element);
+            lastNumberOfElements = actualNumberOfElements;
+        }
+        else if(actualNumberOfElements < lastNumberOfElements)
+        {
+            int elementsToDestroy = -(actualNumberOfElements - lastNumberOfElements);
+            print(elementsToDestroy);
+
+            int el = 0;
+            foreach (GameObject o in GameObject.FindGameObjectsWithTag("Element"))
+            {
+                if (o.GetComponent<ElementLife>().living)
+                {
+                    o.GetComponent<ElementLife>().living = false;
+                }
+                el++;
+                if (el == elementsToDestroy)
+                {
+                    break;
+                }
+            }
+            lastNumberOfElements = actualNumberOfElements;
+        }
+
+        /*
         if (actualNumberOfElements != PlayerStats.numberOfResources / resourceAmountForElement)
         {
             if(actualNumberOfElements >= 25)
@@ -74,8 +113,11 @@ public class ElementsHandler : MonoBehaviour
                     Instantiate(element);
                 }
             }
-            actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
+            
         }
+         * */
+
+
 
         
     }

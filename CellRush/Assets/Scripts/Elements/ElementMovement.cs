@@ -4,12 +4,16 @@ using System.Collections;
 public class ElementMovement : MonoBehaviour
 {
 
-    public float elementSpeed = 1.5f;
+    public float minElementSpeed = 1f;
+    public float maxElementSpeed = 1.5f;
+
+    private float elementSpeed;
     Vector3 pos;
 
     Vector3 destination;
     void Start()
     {
+        elementSpeed = Random.Range(minElementSpeed,maxElementSpeed);
         pos = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f));
         pos.z = 0;
 
@@ -27,6 +31,11 @@ public class ElementMovement : MonoBehaviour
             destination = Vector3.Scale(
             Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f))),
             new Vector3(1, 1, 0));
+        }
+
+        if (!GetComponent<SpriteRenderer>().isVisible)
+        {
+            destination = GameObject.FindGameObjectWithTag("Player").transform.position;
         }
         //transform.position = Vector3.Scale(Camera.main.ViewportToWorldPoint(destination),new Vector3(1,1,0));
     }
