@@ -2,6 +2,71 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public class ElementsHandler : MonoBehaviour
+{
+    public GameObject element;
+    
+    [Tooltip("pocet resources ktere reprezentuji jeden element")]
+    public int resourceAmountForElement = 5;
+
+    int actualNumberOfElements;
+
+    bool firstUpdate = true;
+
+    void Awake()
+    {
+        
+    }
+
+    void Update()
+    {
+        if (firstUpdate)
+        {
+            actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
+
+            for (int i = 0; i < actualNumberOfElements; i++)
+            {
+                Instantiate(element);
+            }
+
+            firstUpdate = false;
+        }
+
+        if (actualNumberOfElements != PlayerStats.numberOfResources / resourceAmountForElement)
+        {
+            if (actualNumberOfElements > PlayerStats.numberOfResources / resourceAmountForElement)
+            {
+                for (int i = 0; i < (actualNumberOfElements - PlayerStats.numberOfResources / resourceAmountForElement); i++)
+                {
+                    if (GameObject.FindGameObjectsWithTag("Element")[i].GetComponent<ElementLife>().living)
+                    {
+                        GameObject.FindGameObjectsWithTag("Element")[i].GetComponent<ElementLife>().living = false;
+                    }
+                }
+            }
+            actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
+        }
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  OLD FUNCIONALITY
 public class ElementsHandler : MonoBehaviour {
 
     public GameObject element;
@@ -37,3 +102,4 @@ public class ElementsHandler : MonoBehaviour {
 
 	}
 }
+*/

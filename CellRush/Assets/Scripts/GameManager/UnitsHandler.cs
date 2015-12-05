@@ -25,10 +25,18 @@ public class UnitsHandler : MonoBehaviour {
         if (firstRun)
         {
             currentNumberOfworkers = PlayerStats.numberOfWorkers;
+            currentNumberOfTroops = PlayerStats.numberOfTroops;
+
             for (int o = 0; o < PlayerStats.numberOfWorkers; o++)
             {
-                Instantiate(worker, spawnPosition, Quaternion.identity);
+                Instantiate(worker, spawnPosition, Quaternion.identity); 
             }
+            
+            for (int o = 0; o < PlayerStats.numberOfTroops; o++)
+            {
+                Instantiate(troop, spawnPosition, Quaternion.identity);
+            }
+
             firstRun = false;
         }
 

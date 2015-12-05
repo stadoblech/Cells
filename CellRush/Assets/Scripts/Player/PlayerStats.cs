@@ -48,5 +48,9 @@ public class PlayerStats : MonoBehaviour
         {
             threat = 5;
         }
+        if (numberOfResources < 0)
+        {
+            numberOfResources = 0;
+        }
     }
 }

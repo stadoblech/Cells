@@ -1,6 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public class ElementMovement : MonoBehaviour
+{
+    Vector3 pos;
+    
+    void Start()
+    {
+        pos = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f));
+        pos.z = 0;
+    }
+    void Update()
+    {
+        transform.position = Vector3.Scale(Camera.main.ViewportToWorldPoint(pos),new Vector3(1,1,0));
+    }
+}
+
+/*
 public class ElementMovement : MonoBehaviour {
 
     public float minSpeed;
@@ -56,3 +72,4 @@ public class ElementMovement : MonoBehaviour {
         return Random.Range(minSpeed,maxSpeed);
     }
 }
+ * */
