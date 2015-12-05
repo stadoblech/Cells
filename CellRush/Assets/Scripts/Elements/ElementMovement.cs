@@ -3,16 +3,32 @@ using System.Collections;
 
 public class ElementMovement : MonoBehaviour
 {
+
+    public float elementSpeed = 1.5f;
     Vector3 pos;
-    
+
+    Vector3 destination;
     void Start()
     {
         pos = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f));
         pos.z = 0;
+
+        destination = Vector3.Scale(
+            Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f))),
+            new Vector3(1,1,0));
+        transform.position = destination;
+
     }
     void Update()
     {
-        transform.position = Vector3.Scale(Camera.main.ViewportToWorldPoint(pos),new Vector3(1,1,0));
+        transform.position = Vector3.MoveTowards(transform.position, destination, elementSpeed * Time.deltaTime);
+        if (transform.position == destination)
+        {
+            destination = Vector3.Scale(
+            Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f))),
+            new Vector3(1, 1, 0));
+        }
+        //transform.position = Vector3.Scale(Camera.main.ViewportToWorldPoint(destination),new Vector3(1,1,0));
     }
 }
 

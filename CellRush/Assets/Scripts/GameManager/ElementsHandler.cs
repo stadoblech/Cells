@@ -23,6 +23,11 @@ public class ElementsHandler : MonoBehaviour
         if (firstUpdate)
         {
             actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
+            
+            if (actualNumberOfElements > 25)
+            {
+                actualNumberOfElements = 25;
+            }
 
             for (int i = 0; i < actualNumberOfElements; i++)
             {
@@ -31,22 +36,50 @@ public class ElementsHandler : MonoBehaviour
 
             firstUpdate = false;
         }
+        
+        
 
         if (actualNumberOfElements != PlayerStats.numberOfResources / resourceAmountForElement)
         {
+            if(actualNumberOfElements >= 25)
+            {
+                actualNumberOfElements = 25;
+                actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
+                return;
+            }
+
             if (actualNumberOfElements > PlayerStats.numberOfResources / resourceAmountForElement)
             {
                 for (int i = 0; i < (actualNumberOfElements - PlayerStats.numberOfResources / resourceAmountForElement); i++)
                 {
-                    if (GameObject.FindGameObjectsWithTag("Element")[i].GetComponent<ElementLife>().living)
+                    if (GameObject.FindGameObjectsWithTag("Element").Length <= 0)
                     {
-                        GameObject.FindGameObjectsWithTag("Element")[i].GetComponent<ElementLife>().living = false;
+                        return;
                     }
+
+                    foreach (GameObject o in GameObject.FindGameObjectsWithTag("Element"))
+                    {
+                        if (o.GetComponent<ElementLife>().living)
+                        {
+                            o.GetComponent<ElementLife>().living = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < (PlayerStats.numberOfResources / resourceAmountForElement - actualNumberOfElements);i++)
+                {
+                    Instantiate(element);
                 }
             }
             actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
         }
+
+        
     }
+
 
 
 
