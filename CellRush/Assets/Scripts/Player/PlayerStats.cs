@@ -21,17 +21,20 @@ public class PlayerStats : MonoBehaviour
     public static int numberOfResources;
     public static int threat;
     public static int currentLevel;
-    
+
+    public static bool gameOver;
 
     public static int experience;
 
     void Start()
     {
+        gameOver = false;
         numberOfTroops = startNumberOfTroops;
         numberOfWorkers = startNumberOfWorkers;
         numberOfResources = startNumberOfResources;
         threat = startThreatAmount;
         currentLevel = startLevel;
+        experience = 0;
 
     }
 

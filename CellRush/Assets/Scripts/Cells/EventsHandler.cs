@@ -150,7 +150,11 @@ public class MineEvent : Event
         //int obtRes = (int)(((PlayerStats.numberOfWorkers * workersCoeficient + PlayerStats.currentLevel) * 5) - (PlayerStats.threat / 3));
         int obtRes = (int)((PlayerStats.numberOfWorkers * workersCoeficient*2.5f) - 
             ((PlayerStats.numberOfWorkers * workersCoeficient)/100f * PlayerStats.threat))+PlayerStats.currentLevel;
-        
+
+        if (obtRes < 0)
+        {
+            obtRes = 0;
+        }
         if(minningFailed)
         {
            obtRes /= 2;

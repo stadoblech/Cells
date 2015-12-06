@@ -15,6 +15,7 @@ public class ElementsHandler : MonoBehaviour
     int lastNumberOfElements;
 
     bool firstUpdate = true;
+    bool lastUpdate = false;
 
     void Awake()
     {
@@ -43,6 +44,18 @@ public class ElementsHandler : MonoBehaviour
             firstUpdate = false;
         }
 
+        if (PlayerStats.gameOver && !lastUpdate)
+        {
+            foreach (GameObject o in GameObject.FindGameObjectsWithTag("Element"))
+            {
+                if (o.GetComponent<ElementLife>().living)
+                {
+                    o.GetComponent<ElementLife>().living = false;
+                }
+            }
+            lastUpdate = true;
+        }
+
         actualNumberOfElements = PlayerStats.numberOfResources / resourceAmountForElement;
         
         if (actualNumberOfElements > 25)
@@ -59,8 +72,6 @@ public class ElementsHandler : MonoBehaviour
         else if(actualNumberOfElements < lastNumberOfElements)
         {
             int elementsToDestroy = -(actualNumberOfElements - lastNumberOfElements);
-            print(elementsToDestroy);
-
             int el = 0;
             foreach (GameObject o in GameObject.FindGameObjectsWithTag("Element"))
             {

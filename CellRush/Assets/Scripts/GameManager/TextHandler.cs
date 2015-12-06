@@ -8,6 +8,7 @@ public class TextHandler : MonoBehaviour {
     public Text topText;
     public Text bottomText;
     public Text statsText;
+    public Text scoreText;
 
     private int numOfWorkers;
     private string numOfTroops;
@@ -50,5 +51,17 @@ public class TextHandler : MonoBehaviour {
             ";Troops " + PlayerStats.numberOfTroops +
             ";Threat " + PlayerStats.threat +
             ";Resources " + PlayerStats.numberOfResources + "; xp "+PlayerStats.experience;
+
+        if (PlayerStats.gameOver && PlayerStats.threat >= 100)
+        {
+            scoreText.text = "Here come score";
+            topText.text = "";
+            bottomText.text = "";
+            statsText.text = "";
+        }
+        else if (!PlayerStats.gameOver && PlayerStats.threat <= 100)
+        {
+            scoreText.text = "";
+        }
 	}
 }

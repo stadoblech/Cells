@@ -11,6 +11,17 @@ public class UnitLivingHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+        if (PlayerStats.gameOver)
+        {
+            GetComponent<SpriteRenderer>().sortingOrder = -1;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sortingOrder = 0;
+        }
+         
+
         if (!living && !GetComponent<SpriteRenderer>().isVisible)
         {
             destroyWorker();

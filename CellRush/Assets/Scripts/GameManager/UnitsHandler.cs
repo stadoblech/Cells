@@ -14,6 +14,8 @@ public class UnitsHandler : MonoBehaviour {
     int currentNumberOfworkers;
     int currentNumberOfTroops;
 
+    bool lastRun = false;
+
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
         
@@ -22,6 +24,9 @@ public class UnitsHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        
+
         if (firstRun)
         {
             currentNumberOfworkers = PlayerStats.numberOfWorkers;
@@ -48,6 +53,22 @@ public class UnitsHandler : MonoBehaviour {
         if (currentNumberOfworkers != PlayerStats.numberOfWorkers)
         {
             spawnWorkers(currentNumberOfworkers - PlayerStats.numberOfWorkers);
+        }
+
+        if (PlayerStats.gameOver && !lastRun)
+        {
+            foreach (GameObject o in GameObject.FindGameObjectsWithTag("Worker"))
+            {
+                o.GetComponent<UnitLivingHandler>().living = false;
+                o.GetComponent<MoveAroundObject>().setAwayDestination();
+            }
+
+            foreach (GameObject o in GameObject.FindGameObjectsWithTag("Troop"))
+            {
+                o.GetComponent<UnitLivingHandler>().living = false;
+                o.GetComponent<MoveAroundObject>().setAwayDestination();
+            }
+            lastRun = true;
         }
 	}
 
