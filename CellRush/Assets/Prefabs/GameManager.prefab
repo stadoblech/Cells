@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   element: {fileID: 117964, guid: de390010f4b7a4f43bba2d278757a05d, type: 2}
-  numberOfElementsByOneSide: 5
+  resourceAmountForElement: 5
+  maxNumberOfElements: 25
 --- !u!114 &11415876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -59,6 +60,7 @@ MonoBehaviour:
   topText: {fileID: 0}
   bottomText: {fileID: 0}
   statsText: {fileID: 0}
+  scoreText: {fileID: 0}
 --- !u!114 &11440728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,8 +85,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a92a51d0e87a6145a402885bb2c0584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restartGame: 114
   quitGame: 113
+  lostResources: 108
+  gameOver: 103
 --- !u!114 &11464118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,7 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f3c6d76bda6d2449a2e39d3e131cbaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worker: {fileID: 113018, guid: 9388330b1eff5b9428cecec566d2abf8, type: 2}
+  worker: {fileID: 192994, guid: 9971853cbf57a4f46bcf4cbce47a288a, type: 2}
+  troop: {fileID: 144348, guid: b6bfa1226531b1443a0379428d564940, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
