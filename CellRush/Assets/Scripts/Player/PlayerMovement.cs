@@ -5,11 +5,9 @@ public class PlayerMovement : MonoBehaviour {
 
 
     public float moveSpeed;
-    public float timeToAction;
     public KeyCode nextCellKey = KeyCode.RightArrow;
 
     public static int movesCounter;
-    float timeToActionCooldown;
     Vector3 positionToMove;
     bool firtsMove;
 
@@ -25,13 +23,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Start () {
         movesCounter = 0;
-        if (timeToAction == 0)
-        {
-            timeToAction = 999;
-        }
-
         finishedMoving = true;
-        timeToActionCooldown = timeToAction;
         firtsMove = true;
 	}
 	
@@ -55,17 +47,8 @@ public class PlayerMovement : MonoBehaviour {
 
                 positionToMove = Cells.getActiveCell().transform.position;
                 finishedMoving = false;
-                timeToActionCooldown = timeToAction;
             }
-            
-            if (timeToActionCooldown < 0)
-            {
-                timeToActionCooldown = 0;
-            }
-            else if(timeToActionCooldown > 0)
-            {
-                timeToActionCooldown -= Time.deltaTime;
-            }
+
         }
         else if (GetComponent<PlayerAction>().actionMade)
         {
