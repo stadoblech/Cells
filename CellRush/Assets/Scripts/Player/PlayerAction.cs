@@ -69,6 +69,11 @@ public class PlayerAction : MonoBehaviour {
                     activeCell.GetComponent<EventsHandler>().takeAction(c, action);
                     break;
                 }
+            case ActionType.Build:
+                {
+                    activeCell.GetComponent<EventsHandler>().takeAction(c,action);
+                    break;
+                }
         }
 
         //activeCell.GetComponent<EventsHandler>().takeAction(c, action);

@@ -476,6 +476,8 @@ public class BuildEvent : Event
     public BuildEvent()
     {
     }
+
+
 }
 
 #endregion
@@ -497,6 +499,7 @@ public class EventsHandler : MonoBehaviour {
     public MineEvent mine = new MineEvent();
     public FightEvent fight = new FightEvent();
     public ExploreEvent explore = new ExploreEvent();
+    public BuildEvent build = new BuildEvent();
 
 
     bool topActionTaken;
@@ -551,6 +554,7 @@ public class EventsHandler : MonoBehaviour {
                 }
             case ActionType.Build:
                 {
+                    buildAction();
                     break;
                 }
         }
@@ -582,6 +586,11 @@ public class EventsHandler : MonoBehaviour {
 
     #region Event action region
     
+    void buildAction()
+    {
+
+    }
+
     void mineAction()
     {
         /// Pozor !!! pri poctu workers 0 nebo mene se na UI zobrazuje 0 ale realna hodnota je vzdy -1 !!!!!
