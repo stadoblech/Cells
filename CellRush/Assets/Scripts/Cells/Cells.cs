@@ -14,7 +14,7 @@ public class Cells : MonoBehaviour {
 	
 	}
 
-    /*
+    
     public static GameObject getActiveCell()
     {
         foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
@@ -34,7 +34,7 @@ public class Cells : MonoBehaviour {
 
         return null;
     }
-     * */
+    
 
     public static int getIdfOfActiveCell()
     {
