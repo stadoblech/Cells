@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour {
     public KeyCode nextCellKey = KeyCode.RightArrow;
 
     public static int movesCounter;
-
     Vector3 positionToMove;
     bool firtsMove;
 
