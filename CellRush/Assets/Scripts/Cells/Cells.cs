@@ -14,11 +14,12 @@ public class Cells : MonoBehaviour {
 	
 	}
 
+    /*
     public static GameObject getActiveCell()
     {
         foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
         {
-            if (o.GetComponent<CellHandler>().activeCell && o != null)
+            if (o.GetComponent<CellHandler>().activeCell)
             {
                 return o;
             }
@@ -33,6 +34,7 @@ public class Cells : MonoBehaviour {
 
         return null;
     }
+     * */
 
     public static int getIdfOfActiveCell()
     {
@@ -45,6 +47,19 @@ public class Cells : MonoBehaviour {
             }
         }
         return 0;
+
+    }
+
+    public static GameObject getCellById(int id)
+    {
+        foreach (GameObject o in GameObject.FindGameObjectsWithTag("cell"))
+        {
+            if (o.GetComponent<CellHandler>().cellID == id)
+            {
+                return o;
+            }
+        }
+        return null;
 
     }
 }
